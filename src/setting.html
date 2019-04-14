@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Setting</title>
+</head>
+<body>
+
+<form id="settings" name="settings" action="">
+  <label for="ipaddr">IP address:</label>
+  <input placeholder="host ip address" id="ipaddr" type=text value="">
+  <label for="port">Port number:</label>
+  <input placeholder="port number" id="port" type=text value="">
+  <button type=button id="apply">Apply</button>
+  <button type=button id="close">Close</button>
+</form>
+<hr>
+<label for="url">Host URL:</label>
+<p id="url"></p><br />
+<label for="qrcode">QR code:</label>
+<div id="qrcode"></div>
+<script src='../ext/qrcode/qrcode.js'></script>
+<script>
+  function apply() {
+    updateHostUrl()
+
+    hostURL = document.getElementById('url').innerText
+    localIPAddress = document.settings.ipaddr.value
+    portNo = document.settings.port.value
+    newSettings = {
+      hostURL: `https://${localIPAddress}:${portNo}`,
+      hostIPAddress: localIPAddress,
+      portNo: portNo
+    }
+    ipcRenderer.send('from-apply', newSettings);
+  }
+
+  function updateHostUrl() {
+    var url = 'https://' + document.settings.ipaddr.value + ':' + document.settings.port.value;
+    document.getElementById('url').innerText = url;
+    updateQrCode()
+  }
+  function updateQrCode() {
+    var typeNumber = 4;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+
+    qr.addData(document.getElementById('url').innerText);
+    qr.make();
+    document.getElementById('qrcode').innerHTML = qr.createImgTag(4);
+  }
+  document.getElementById('apply').onclick = apply;
+  updateHostUrl();
+
+  document.getElementById('close').onclick = window.close;
+</script>
+</body>
+</html>

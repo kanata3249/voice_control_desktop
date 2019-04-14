@@ -1,0 +1,20 @@
+{
+  "name": "voice-control-desktop",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-packager . --package-manager yarn --overwrite --out=dist --asar --prune=true"
+  },
+  "devDependencies": {
+    "electron": "^4.1.4",
+    "electron-packager": "^13.1.1",
+    "eslint": "^5.16.0"
+  },
+  "dependencies": {
+    "electron-json-storage-sync": "^1.1.1",
+    "express": "^4.16.4",
+    "qrcode-generator": "^1.4.3"
+  }
+}
