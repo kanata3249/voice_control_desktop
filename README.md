@@ -3,6 +3,7 @@
 
 ### build
 
+> $ yarn rebuild-modules
 > $ yarn start
 
 ### package

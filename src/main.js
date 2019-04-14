@@ -2,6 +2,7 @@ const storage = require('electron-json-storage-sync')
 const Settings = require('./Settings')
 const ApiServer = require('./ApiServer')
 const SettingWindow = require('./SettingWindow')
+const NativeWindow = require('./NativeWindow')
 
 require('console')
 
@@ -10,6 +11,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
+let nativeWindow = new NativeWindow()
 let apiServer = null
 let settings = null
 let mainWindow = null
@@ -55,6 +57,7 @@ app.on('ready', function () {
   const api_handler = {
     "input": (data) => {
       mainWindow.webContents.send('input', data)
+      nativeWindow.paste(data)
       return true
     },
     "buttons": () => {
