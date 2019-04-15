@@ -7,7 +7,7 @@
   "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaFeatures": {
-      "jsx": false
+      "jsx": true
     },
     "sourceType": "module",
     "ecmaVersion": 2015

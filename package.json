@@ -8,16 +8,32 @@
     "rebuild-modules": "electron-rebuild",
     "package": "electron-packager . --package-manager yarn --overwrite --out=dist --asar --prune=true"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
     "electron": "^4.1.4",
     "electron-packager": "^13.1.1",
     "electron-rebuild": "^1.8.4",
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.30.0",
+    "webpack-command": "^0.4.2"
   },
   "dependencies": {
     "electron-json-storage-sync": "^1.1.1",
     "express": "^4.16.4",
     "ffi": "^2.3.0",
-    "qrcode-generator": "^1.4.3"
+    "qrcode-generator": "^1.4.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   }
 }

@@ -1,0 +1,21 @@
+h1 {
+  color: white
+}
+h1 span {
+  margin-left: 1em
+}
+body {
+  background-color: black
+}
+.react-color {
+  color: #61dafb
+}
+.electron-color {
+  color: #9eeaf9 
+}
+.babel-color {
+  color: #f5da55
+}
+.webpack-color {
+  color: #e0e6e7
+}
