@@ -1,5 +1,10 @@
-// import bundle target jsx
+import React from 'react'
+import ReactDOM from 'react-dom'
 import Root from './react/components/Root.jsx'
 
-// import bundle target css
-import './assets/css/main.css'
+module.exports = function loadComponent(componentName, element) {
+  const component = {
+    "Root": Root
+  }[componentName]
+  ReactDOM.render(React.createElement(component), element)
+}
