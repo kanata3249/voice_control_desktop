@@ -1,7 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 export default class Root extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return(
       <div>
@@ -16,4 +19,3 @@ export default class Root extends React.Component {
     )
   }
 }
-//ReactDOM.render(<Root />, document.getElementById('root'))

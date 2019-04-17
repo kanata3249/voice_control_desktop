@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Root from './components/Root.jsx'
+import Root from './Root/Root.jsx'
+import ReplacerSettingRoot from './Root/ReplacerSettingRoot.jsx'
 
-module.exports = function loadComponent(componentName, element) {
+module.exports = function loadComponent(componentName, element, props) {
   const component = {
-    "Root": Root
+    "Root": Root,
+    "ReplacerSettingRoot": ReplacerSettingRoot
   }[componentName]
-  ReactDOM.render(React.createElement(component), element)
+  ReactDOM.render(React.createElement(component, props), element)
 }

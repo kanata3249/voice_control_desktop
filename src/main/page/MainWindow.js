@@ -2,8 +2,9 @@ const storage = require('electron-json-storage-sync')
 const Settings = require('../lib/Settings')
 const ApiServer = require('../lib/ApiServer')
 const Replacer = require('../lib/Replacer')
-const SettingWindow = require('./SettingWindow')
 const NativeWindow = require('../lib/NativeWindow')
+const SettingWindow = require('./SettingWindow')
+const ReplacerSettingWindow = require('./ReplacerSettingWindow')
 
 require('console')
 
@@ -18,6 +19,7 @@ let settings = null
 let replacer = null
 let mainWindow = null
 let settingWindow = null
+let replacerSettingWindow = null
 
 const onRemoteEvent = (elementId, eventName, handler) => {
   const script = `document.getElementById("${elementId}").${eventName} = (event) => { ipcRenderer.send("from-${elementId}", "${eventName}")}`
@@ -36,6 +38,9 @@ const registerEventHandlers = () => {
   })
   onRemoteEvent('setting', 'onclick', () => {
     settingWindow.show(mainWindow, settings)
+  })
+  onRemoteEvent('replacesetting', 'onclick', () => {
+    replacerSettingWindow.show(mainWindow, replacer)
   })
 
   onRemoteIPC('input', (event, arg) => { document.getElementById("message").value += arg })
@@ -85,4 +90,6 @@ app.on('ready', function () {
 
   settingWindow = new SettingWindow()
   settingWindow.setSettings(settings)
+  replacerSettingWindow = new ReplacerSettingWindow()
+  replacerSettingWindow.setReplacer(replacer)
 })
