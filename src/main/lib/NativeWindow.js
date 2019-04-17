@@ -21,7 +21,7 @@ var int32ptr = ref.refType('int32')
 
 const WM_KEYDOWN = 0x0100
 const WM_KEYUP = 0x0101
-const WM_CHAR = 0x0102
+//const WM_CHAR = 0x0102
 const WM_IME_CHAR = 0x0286
 
 class Win32Api {
@@ -43,7 +43,6 @@ class Win32Api {
         'int32', ['int32', 'int32', 'int32', 'uint32'],
       ]
     })
-    console.log(this.user32)
 
     this.kernel32 = new FFI.Library('kernel32', {
       'GetCurrentThreadId': [

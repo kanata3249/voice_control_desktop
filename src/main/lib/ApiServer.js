@@ -42,8 +42,8 @@ module.exports = class ApiServer {
   start() {
     if (this.settings.settings) {
       const httpsOptions = {
-        key: fs.readFileSync(path.join(__dirname, '../cert/server_key.pem')),
-        cert: fs.readFileSync(path.join(__dirname, '../cert/server_cert.pem'))
+        key: fs.readFileSync(path.join(__dirname, '../../../cert/server_key.pem')),
+        cert: fs.readFileSync(path.join(__dirname, '../../../cert/server_cert.pem'))
       }
       this.httpsServer = https.createServer(httpsOptions, this.httpServer);
 //      this.httpsServer = http.createServer(this.httpServer);

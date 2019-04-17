@@ -25,7 +25,7 @@ module.exports = class SettingWindow {
     this.window.once('ready-to-show', () => this.window.show())
     this.window.webContents.on('did-finish-load', () => this.setCurrentSettings())
     this.window.on('closed', () => { this.window = null })
-    this.window.loadURL('file://' + __dirname + '/setting.html')
+    this.window.loadURL('file://' + __dirname + '/../../renderer/setting.html')
 
     ipcMain.on(`from-apply`, (sender, newSettings) => {
       this.settings.save(newSettings)

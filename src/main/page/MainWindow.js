@@ -1,9 +1,9 @@
 const storage = require('electron-json-storage-sync')
-const Settings = require('./Settings')
-const ApiServer = require('./ApiServer')
-const Replacer = require('./Replacer')
+const Settings = require('../lib/Settings')
+const ApiServer = require('../lib/ApiServer')
+const Replacer = require('../lib/Replacer')
 const SettingWindow = require('./SettingWindow')
-const NativeWindow = require('./NativeWindow')
+const NativeWindow = require('../lib/NativeWindow')
 
 require('console')
 
@@ -57,7 +57,7 @@ app.on('ready', function () {
   mainWindow.once('ready-to-show', () => mainWindow.show())
   mainWindow.webContents.on('did-finish-load', registerEventHandlers)
   mainWindow.on('closed', () => { mainWindow = null })
-  mainWindow.loadURL('file://' + __dirname + '/index.html')
+  mainWindow.loadURL('file://' + __dirname + '/../../renderer/index.html')
   // mainWindow.webContents.openDevTools()
   const api_handler = {
     "input": (data) => {

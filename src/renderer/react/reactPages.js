@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Root from './react/components/Root.jsx'
+import Root from './components/Root.jsx'
 
 module.exports = function loadComponent(componentName, element) {
   const component = {
