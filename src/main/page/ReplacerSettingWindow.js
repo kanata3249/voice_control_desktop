@@ -13,8 +13,10 @@ module.exports = class ReplacerSettingWindow {
   }
 
   setCurrentReplacers() {
-    var props = this.replacer
-    this.window.webContents.executeJavaScript(`loadComponent('ReplacerSettingRoot', document.getElementById('root'),{replacer: ${JSON.stringify(props)}})`)
+    this.window.webContents.executeJavaScript(`setReplacer(${JSON.stringify(this.replacer.settings)});`)
+    ipcMain.on(`from-apply`, (sender, newReplacer) => {
+      this.replacer.save(newReplacer)
+    })
   }
 
   show(parent) {
@@ -24,11 +26,7 @@ module.exports = class ReplacerSettingWindow {
     this.window.webContents.on('did-finish-load', () => this.setCurrentReplacers())
     this.window.on('closed', () => { this.window = null })
     this.window.loadURL('file://' + __dirname + '/../../renderer/replacesetting.html')
-     this.window.webContents.openDevTools()
-
-    ipcMain.on(`from-apply`, (sender, newReplacer) => {
-      this.replacer.save(newReplacer)
-    })
+    this.window.webContents.openDevTools()
   }
 }
 

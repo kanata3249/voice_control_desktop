@@ -1,6 +1,6 @@
 const storage = require('electron-json-storage-sync')
 
-const default_key = "^<default>$"
+const default_key = "^_default_$"
 
 module.exports = class Replacer {
   constructor(filePath) {
@@ -18,7 +18,7 @@ module.exports = class Replacer {
       [default_key]: [
         {
           "key": "決定",
-          "value": "\r"
+          "value": "\\r"
         }
       ]
     }
@@ -41,8 +41,7 @@ module.exports = class Replacer {
     this.handler && this.handler()
   }
 
-  replace(application, text)
-  {
+  replace(application, text) {
     var replace_key = Object.keys(this.settings).find((regexp) => application.match(regexp))
     if (replace_key == undefined) {
       replace_key = default_key

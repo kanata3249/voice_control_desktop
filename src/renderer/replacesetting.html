@@ -9,7 +9,32 @@
 
 <div id="root"></div>
 
-<script type="text/javascript" src="../../bundle/renderer.js">
+<div>
+  <button id='apply'>Apply</button>
+  <button id='close'>Close</button>
+</div>
+
+<script type="text/javascript" src="../../bundle/renderer.js"></script>
+<script type="text/javascript">
+  var newReplacer
+
+  function onChange(replacer)
+  {
+    newReplacer = replacer
+  }
+
+  function setReplacer(replacer)
+  {
+    newReplacer = replacer
+    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacer: replacer, onChange: onChange})
+  }
+
+  function apply() {
+    ipcRenderer.send('from-apply', newReplacer);
+  }
+
+  document.getElementById('apply').onclick = apply;
+  document.getElementById('close').onclick = window.close;
 </script>
 </body>
 </html>

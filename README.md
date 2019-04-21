@@ -4,6 +4,7 @@
 ### build
 
 > $ yarn rebuild-modules
+> $ yarn webpack
 > $ yarn start
 
 ### package
