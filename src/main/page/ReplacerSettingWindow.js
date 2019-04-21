@@ -5,17 +5,17 @@ const ipcMain = electron.ipcMain
 module.exports = class ReplacerSettingWindow {
   constructor() {
     this.window = null
-    this.replacer = null
+    this.replacerSetting = null
   }
 
-  setReplacer(replacer) {
-    this.replacer = replacer
+  setReplacerSetting(replacerSetting) {
+    this.replacerSetting = replacerSetting
   }
 
   setCurrentReplacers() {
-    this.window.webContents.executeJavaScript(`setReplacer(${JSON.stringify(this.replacer.settings)});`)
+    this.window.webContents.executeJavaScript(`setReplacer(${JSON.stringify(this.replacerSetting.settings)});`)
     ipcMain.on(`from-apply`, (sender, newReplacer) => {
-      this.replacer.save(newReplacer)
+      this.replacerSetting.save(newReplacer)
     })
   }
 

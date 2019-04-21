@@ -16,21 +16,21 @@
 
 <script type="text/javascript" src="../../bundle/renderer.js"></script>
 <script type="text/javascript">
-  var newReplacerSetting
+  var newButtonSetting
 
-  function onChange(replacerSetting)
+  function onChange(buttonSetting)
   {
-    newReplacerSetting = replacerSetting
+    newButtonSetting = buttonSetting
   }
 
-  function setReplacer(replacerSetting)
+  function setButtonSetting(buttonSetting)
   {
-    newReplacerSetting = replacerSetting
-    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacerSetting: replacerSetting, onChange: onChange})
+    newButtonSetting = buttonSetting
+    loadComponent('ButtonSettingRoot', document.getElementById('root'), {buttonSetting: buttonSetting, onChange: onChange})
   }
 
   function apply() {
-    ipcRenderer.send('from-apply', newReplacerSetting);
+    ipcRenderer.send('from-apply', newButtonSetting);
   }
 
   document.getElementById('apply').onclick = apply;

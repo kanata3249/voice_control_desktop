@@ -1,10 +1,11 @@
-const storage = require('electron-json-storage-sync')
 const Settings = require('../lib/Settings')
 const ApiServer = require('../lib/ApiServer')
-const Replacer = require('../lib/Replacer')
+const ReplacerSetting = require('../lib/ReplacerSetting')
+const ButtonSetting = require('../lib/ButtonSetting')
 const NativeWindow = require('../lib/NativeWindow')
 const SettingWindow = require('./SettingWindow')
 const ReplacerSettingWindow = require('./ReplacerSettingWindow')
+const ButtonSettingWindow = require('./ButtonSettingWindow')
 
 require('console')
 
@@ -16,10 +17,12 @@ const ipcMain = electron.ipcMain
 let nativeWindow = new NativeWindow()
 let apiServer = null
 let settings = null
-let replacer = null
+let replacerSetting = null
+let buttonSetting = null
 let mainWindow = null
 let settingWindow = null
 let replacerSettingWindow = null
+let buttonSettingWindow = null
 
 const onRemoteEvent = (elementId, eventName, handler) => {
   const script = `document.getElementById("${elementId}").${eventName} = (event) => { ipcRenderer.send("from-${elementId}", "${eventName}")}`
@@ -39,8 +42,11 @@ const registerEventHandlers = () => {
   onRemoteEvent('setting', 'onclick', () => {
     settingWindow.show(mainWindow, settings)
   })
-  onRemoteEvent('replacesetting', 'onclick', () => {
-    replacerSettingWindow.show(mainWindow, replacer)
+  onRemoteEvent('replacersetting', 'onclick', () => {
+    replacerSettingWindow.show(mainWindow, replacerSetting)
+  })
+  onRemoteEvent('buttonsetting', 'onclick', () => {
+    buttonSettingWindow.show(mainWindow, buttonSetting)
   })
 
   onRemoteIPC('input', (event, arg) => { document.getElementById("message").value += arg })
@@ -54,8 +60,10 @@ app.on('ready', function () {
   settings = new Settings('config')
   settings.load()
 
-  replacer = new Replacer('translation')
-  replacer.load()
+  replacerSetting = new ReplacerSetting('translation')
+  replacerSetting.load()
+  buttonSetting = new ButtonSetting('buttons')
+  buttonSetting.load()
 
   mainWindow = new BrowserWindow({ width: 800, height: 600, show: false })
   mainWindow.webContents.executeJavaScript('var { ipcRenderer } = require("electron")')
@@ -66,17 +74,13 @@ app.on('ready', function () {
   // mainWindow.webContents.openDevTools()
   const api_handler = {
     "input": (data) => {
-      const translated_text = replacer.replace("appName", data)
+      const translated_text = replacerSetting.replace("appName", data)
       mainWindow.webContents.send('input', `${translated_text}`)
       nativeWindow.paste(translated_text)
       return true
     },
     "buttons": () => {
-      const result = storage.get('buttons')
-      if (result.status) {
-        return result.data
-      }
-      return {}
+      return buttonSetting.settings;
     }
   }
   apiServer = new ApiServer()
@@ -91,5 +95,7 @@ app.on('ready', function () {
   settingWindow = new SettingWindow()
   settingWindow.setSettings(settings)
   replacerSettingWindow = new ReplacerSettingWindow()
-  replacerSettingWindow.setReplacer(replacer)
+  replacerSettingWindow.setReplacerSetting(replacerSetting)
+  buttonSettingWindow = new ButtonSettingWindow()
+  buttonSettingWindow.setButtonSetting(buttonSetting)
 })

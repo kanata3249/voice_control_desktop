@@ -2,7 +2,7 @@ const storage = require('electron-json-storage-sync')
 
 const default_key = "^_default_$"
 
-module.exports = class Replacer {
+module.exports = class ReplacerSetting {
   constructor(filePath) {
     this.settings = null
     this.filePath = filePath

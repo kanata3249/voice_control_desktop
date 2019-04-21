@@ -27,18 +27,18 @@ export default class ReplacerSetting extends React.Component {
   }
 
   onChange(rowData) {
-    let newReplacer = {}
+    let newReplacerSetting = {}
     rowData.forEach((item) => {
-      if (!newReplacer.hasOwnProperty(item.application)) {
-        newReplacer[item.application] = []
+      if (!newReplacerSetting.hasOwnProperty(item.application)) {
+        newReplacerSetting[item.application] = []
       }
-      newReplacer[item.application].push({ key: item.input, value: item.output })
+      newReplacerSetting[item.application].push({ key: item.input, value: item.output })
     })
-    this.props.onChange && this.props.onChange(newReplacer)
+    this.props.onChange && this.props.onChange(newReplacerSetting)
   }
   
   render() {
-    const settings = this.props.replacer;
+    const settings = this.props.replacerSetting;
     const data = Object.keys(settings).map((targetApplication) => (
       settings[targetApplication].map((item) => (
         {
