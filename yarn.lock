@@ -4326,7 +4326,7 @@ ms@^2.1.1:
 
 "mui-editable-table@git+https://github.com/kanata3249/mui-editable-table.git":
   version "0.3.3"
-  resolved "git+https://github.com/kanata3249/mui-editable-table.git#eb79bdc27e0bb3ce4b06a4a038d27dc69401414b"
+  resolved "git+https://github.com/kanata3249/mui-editable-table.git#2a1850f316438a4692243c39eb544e2f3817db8c"
   dependencies:
     "@material-ui/core" "^3.9.3"
     "@material-ui/icons" "^3.0.2"

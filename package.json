@@ -4,9 +4,9 @@
   "main": "src/index.js",
   "license": "Apache-2.0",
   "scripts": {
-    "start": "electron .",
-    "rebuild-modules": "electron-rebuild && cd node_modules/mui-editable-table && yarn install && yarn bundle",
-    "package": "electron-packager . --package-manager yarn --overwrite --out=dist --asar --prune=true"
+    "start": "webpack && electron .",
+    "rebuild-modules": "electron-rebuild",
+    "package": "webpack -p && electron-packager . --package-manager yarn --overwrite --out=dist --asar --prune=true"
   },
   "babel": {
     "presets": [
