@@ -25,6 +25,7 @@
     "electron-react-devtools": "^0.5.3",
     "electron-rebuild": "^1.8.4",
     "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.12.4",
     "style-loader": "^0.23.1",
     "webpack": "^4.30.0",
     "webpack-command": "^0.4.2"
