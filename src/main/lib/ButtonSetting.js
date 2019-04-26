@@ -13,24 +13,26 @@ module.exports = class ButtonSetting {
 
   loadDefault() {
     return {
-      "tab1": {
-        "title": "tab1",
-        "buttons": [
-          {
-            "label": "action1",
-            "action": "<button1>"
-          }
-        ]
-      },
-      "tab2": {
-        "title": "tab2",
-        "buttons": [
-          {
-            "label": "emote1",
-            "action": "<button2>"
-          }
-        ]
-      }
+      "tab": [
+        {
+          "label": "tab1",
+          "buttons": [
+            {
+              "label": "action1",
+              "action": "<button1>"
+            }
+          ],
+        },
+        {
+          "label": "tab2",
+          "buttons": [
+            {
+              "label": "emote1",
+              "action": "<button2>"
+            }
+          ]
+        }
+      ]
     }
   }
 

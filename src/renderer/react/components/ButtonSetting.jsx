@@ -27,22 +27,23 @@ export default class ButtonSetting extends React.Component {
   }
 
   onChange(rowData) {
-    let newButton = {}
+    let newButton = { tab: [] }
     rowData.forEach((item) => {
-      if (!newButton.hasOwnProperty(item.tab)) {
-        newButton[item.tab] = []
+      let index = newButton.tab.findIndex((element) => element.label == item.tab)
+      if (index == -1) {
+        index = newButton.tab.push({ label: item.tab, buttons: [] }) - 1
       }
-      newButton[item.tab].push({ label: item.label, action: item.action })
+      newButton.tab[index].buttons.push({ label: item.label, action: item.action })
     })
     this.props.onChange && this.props.onChange(newButton)
   }
   
   render() {
     const settings = this.props.buttonSetting;
-    const data = Object.keys(settings).map((tab) => (
-      settings[tab].map((item) => (
+    const data = settings.tab.map((tab) => (
+      tab.buttons.map((item) => (
         {
-          'tab': tab,
+          'tab': tab.label,
           'label': item.label,
           'action': item.action
         }
