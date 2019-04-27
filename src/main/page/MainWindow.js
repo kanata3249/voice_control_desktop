@@ -4,8 +4,6 @@ const ReplacerSetting = require('../lib/ReplacerSetting')
 const ButtonSetting = require('../lib/ButtonSetting')
 const NativeWindow = require('../lib/NativeWindow')
 const SettingWindow = require('./SettingWindow')
-const ReplacerSettingWindow = require('./ReplacerSettingWindow')
-const ButtonSettingWindow = require('./ButtonSettingWindow')
 
 require('console')
 
@@ -21,8 +19,6 @@ let replacerSetting = null
 let buttonSetting = null
 let mainWindow = null
 let settingWindow = null
-let replacerSettingWindow = null
-let buttonSettingWindow = null
 
 const onRemoteEvent = (elementId, eventName, handler) => {
   const script = `document.getElementById("${elementId}").${eventName} = (event) => { ipcRenderer.send("from-${elementId}", "${eventName}")}`
@@ -36,17 +32,8 @@ const onRemoteIPC = (eventName, handler) => {
 }
 
 const registerEventHandlers = () => {
-  onRemoteEvent('clipboard', 'onclick', (event) => {
-    event.sender.send('input', electron.clipboard.readText())
-  })
   onRemoteEvent('setting', 'onclick', () => {
     settingWindow.show(mainWindow, settings)
-  })
-  onRemoteEvent('replacersetting', 'onclick', () => {
-    replacerSettingWindow.show(mainWindow, replacerSetting)
-  })
-  onRemoteEvent('buttonsetting', 'onclick', () => {
-    buttonSettingWindow.show(mainWindow, buttonSetting)
   })
 
   onRemoteIPC('input', (event, arg) => { document.getElementById("message").value += arg })
@@ -93,9 +80,7 @@ app.on('ready', function () {
   })
 
   settingWindow = new SettingWindow()
-  settingWindow.setSettings(settings)
-  replacerSettingWindow = new ReplacerSettingWindow()
-  replacerSettingWindow.setReplacerSetting(replacerSetting)
-  buttonSettingWindow = new ButtonSettingWindow()
-  buttonSettingWindow.setButtonSetting(buttonSetting)
+  settingWindow.setNetworkSettings(settings)
+  settingWindow.setReplacerSetting(replacerSetting)
+  settingWindow.setButtonSetting(buttonSetting)
 })

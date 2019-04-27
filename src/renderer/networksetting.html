@@ -4,8 +4,17 @@
 <meta charset="UTF-8">
 <title>Setting</title>
 <link rel="stylesheet" href="./assets/css/main.css">
+<link rel="stylesheet" href="../../node_modules/electron-tabs/electron-tabs.css">
 </head>
 <body>
+
+<div class="etabs-tabgroup">
+  <div class="etabs-tabs"></div>
+  <div class="etabs-buttons"></div>
+</div>
+<div class="etabs-views" style="display: none"></div>
+
+<br/>
 
 <form id="settings" name="settings" action="">
   <label for="ipaddr">IP address:</label>
@@ -20,7 +29,37 @@
 <p id="url"></p><br />
 <label for="qrcode">QR code:</label>
 <div id="qrcode"></div>
+
 <script src='../../ext/qrcode/qrcode.js'></script>
+<script>
+  var { ipcRenderer } = require("electron")
+  const TabGroup = require("electron-tabs")
+  tabGroup = new TabGroup();
+
+  networkSetting = tabGroup.addTab({
+    title: "Network",
+    src: "./empty.html",
+    visible: true,
+    closable: false,
+    active: true
+  });
+  replacerSetting = tabGroup.addTab({
+    title: "Replacer",
+    src: "./empty.html",
+    visible: true,
+    closable: false
+  });
+  buttonsSetting = tabGroup.addTab({
+    title: "Buttons",
+    src: "./empty.html",
+    visible: true,
+    closable: false
+  });
+  tabGroup.on("tab-active", (tab, tabGroup) => {
+    ipcRenderer.send('tab-active', tab.getTitle())
+  });
+</script>
+
 <script>
   function apply() {
     updateHostUrl()
@@ -33,9 +72,13 @@
       hostIPAddress: localIPAddress,
       portNo: portNo
     }
-    ipcRenderer.send('from-apply', newSettings);
+    ipcRenderer.send('network-apply', newSettings);
   }
-
+  function setHostUrl(host, port) {
+    document.settings.ipaddr.value = host
+    document.settings.port.value = port
+    updateHostUrl()
+  }
   function updateHostUrl() {
     var url = 'https://' + document.settings.ipaddr.value + ':' + document.settings.port.value;
     document.getElementById('url').innerText = url;

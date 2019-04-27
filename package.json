@@ -35,6 +35,7 @@
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
     "electron-json-storage-sync": "^1.1.1",
+    "electron-tabs": "^0.9.5",
     "express": "^4.16.4",
     "ffi": "^2.3.0",
     "mui-editable-table": "git+https://github.com/kanata3249/mui-editable-table.git",

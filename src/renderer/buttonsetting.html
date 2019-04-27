@@ -2,11 +2,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Replacer Setting</title>
+<title>Button Setting</title>
 <link rel="stylesheet" href="./assets/css/main.css">
+<link rel="stylesheet" href="../../node_modules/electron-tabs/electron-tabs.css">
 </head>
 <body>
 
+<div class="etabs-tabgroup">
+  <div class="etabs-tabs"></div>
+  <div class="etabs-buttons"></div>
+</div>
+<div class="etabs-views" style="display: none"></div>
+
+<br/>
 <div id="root"></div>
 
 <div>
@@ -14,6 +22,35 @@
   <button id='close'>Close</button>
 </div>
 
+<script>
+  var { ipcRenderer } = require("electron")
+  const TabGroup = require("electron-tabs")
+  tabGroup = new TabGroup();
+
+  networkSetting = tabGroup.addTab({
+    title: "Network",
+    src: "./empty.html",
+    visible: true,
+    closable: false
+  });
+  replacerSetting = tabGroup.addTab({
+    title: "Replacer",
+    src: "./empty.html",
+    visible: true,
+    closable: false
+  });
+  buttonsSetting = tabGroup.addTab({
+    title: "Buttons",
+    src: "./empty.html",
+    visible: true,
+    closable: false,
+    active: true
+  });
+  tabGroup.on("tab-active", (tab, tabGroup) => {
+    ipcRenderer.send('tab-active', tab.getTitle())
+  });
+</script>
+  
 <script type="text/javascript" src="../../bundle/renderer.js"></script>
 <script type="text/javascript">
   var newButtonSetting
@@ -30,7 +67,7 @@
   }
 
   function apply() {
-    ipcRenderer.send('from-apply', newButtonSetting);
+    ipcRenderer.send('buttons-apply', newButtonSetting);
   }
 
   document.getElementById('apply').onclick = apply;
