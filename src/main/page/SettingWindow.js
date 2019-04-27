@@ -13,7 +13,6 @@ module.exports = class SettingWindow {
   }
 
   setButtonSetting(buttonSetting) {
-    console.log(buttonSetting)
     this.buttonSetting = buttonSetting
   }
 
@@ -60,7 +59,7 @@ module.exports = class SettingWindow {
     this.window.on('closed', () => { this.window = null })
     this.activeTab = "Network"
     this.window.loadURL('file://' + __dirname + '/../../renderer/networksetting.html')
-    this.window.webContents.openDevTools()
+    // this.window.webContents.openDevTools()
 
     ipcMain.on(`tab-active`, (sender, tabName) => {
       if (this.activeTab != tabName) {

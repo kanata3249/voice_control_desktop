@@ -5,8 +5,6 @@ const ButtonSetting = require('../lib/ButtonSetting')
 const NativeWindow = require('../lib/NativeWindow')
 const SettingWindow = require('./SettingWindow')
 
-require('console')
-
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow

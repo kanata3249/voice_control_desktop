@@ -2,8 +2,6 @@ var FFI = require('ffi')
 var ref = require('ref')
 var os = require('os')
 
-require('console')
-
 module.exports = class NativeWindow {
   constructor() {
     this.nativeApi = null

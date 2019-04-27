@@ -4,8 +4,6 @@ const https = require('https')
 const fs = require('fs')
 const path = require('path')
 
-require('console')
-
 module.exports = class ApiServer {
   constructor() {
     this.settings = null
