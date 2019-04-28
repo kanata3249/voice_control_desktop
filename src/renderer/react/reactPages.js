@@ -6,6 +6,10 @@ import ReplacerSettingRoot from './Root/ReplacerSettingRoot.jsx'
 import ButtonSettingRoot from './Root/ButtonSettingRoot.jsx'
 import TargetTypeSelection from './Components/TargetTypeSelection.jsx'
 
+import '../assets/css/main.css'
+import '../../../node_modules/electron-tabs/electron-tabs.css'
+
+
 export const loadComponent = (componentName, element, props) => {
   const component = {
     "Root": Root,

@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Setting</title>
-<link rel="stylesheet" href="./assets/css/main.css">
-<link rel="stylesheet" href="../../node_modules/electron-tabs/electron-tabs.css">
 </head>
 <body>
 
@@ -30,8 +28,9 @@
 <label for="qrcode">QR code:</label>
 <div id="qrcode"></div>
 
+<script type="text/javascript" src="../../bundle/renderer.js"></script>
 <script src='../../ext/qrcode/qrcode.js'></script>
-<script>
+<script type="text/javascript">
   var { ipcRenderer } = require("electron")
   const TabGroup = require("electron-tabs")
   tabGroup = new TabGroup();
@@ -60,7 +59,7 @@
   });
 </script>
 
-<script>
+<script type="text/javascript">
   function apply() {
     updateHostUrl()
 
