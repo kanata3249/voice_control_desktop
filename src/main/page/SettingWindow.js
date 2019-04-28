@@ -26,21 +26,14 @@ module.exports = class SettingWindow {
 
   setActiveTab(tabName) {
     if (this.activeTab != tabName) {
-      const urls = {
-        Network: '/../../renderer/networksetting.html',
-        Buttons: '/../../renderer/buttonsetting.html',
-        Replacer: '/../../renderer/replacesetting.html',
-      }
-
       this.activeTab = tabName
-      this.window.loadURL('file://' + __dirname + urls[tabName])
+      this.showCurrentSetting()
     }
   }
   
   showCurrentNetworkSettings() {
-    this.window.webContents.executeJavaScript('document.settings.ipaddr.value = "' + this.settings.settings.hostIPAddress + '";')
-    this.window.webContents.executeJavaScript('document.settings.port.value = "' + this.settings.settings.portNo + '";')
-    this.window.webContents.executeJavaScript('updateHostUrl();')
+    this.window.webContents.executeJavaScript(`setHostUrl("${this.settings.settings.hostIPAddress}",
+                                                          ${this.settings.settings.portNo});`)
   }
 
   showCurrentButtonSetting() {
@@ -87,19 +80,19 @@ module.exports = class SettingWindow {
     })
   }
 
-  onFinishLoad() {
-    const showCurrentValueProc = {
+  showCurrentSetting() {
+    const showCurrentSettingProc = {
       'Network': this.showCurrentNetworkSettings.bind(this),
       'Buttons': this.showCurrentButtonSetting.bind(this),
       'Replacer': this.showCurrentReplacerSetting.bind(this),
     };
-    showCurrentValueProc[this.activeTab]()
+    showCurrentSettingProc[this.activeTab]()
   }
 
   show(parent, targetType) {
     this.window = this.window || new BrowserWindow({ parent: parent, show: false })
     this.window.once('ready-to-show', () => this.window.show())
-    this.window.webContents.on('did-finish-load', this.onFinishLoad.bind(this))
+    this.window.webContents.on('did-finish-load', this.showCurrentSetting.bind(this))
     this.window.on('closed', () => { this.window = null })
     loadDevtool(loadDevtool.REACT_DEVELOPER_TOOLS)
     // this.window.webContents.openDevTools()
@@ -108,6 +101,8 @@ module.exports = class SettingWindow {
   
     this.setTargetType(targetType)
     this.setActiveTab('Network')
+
+    this.window.loadURL('file://' + __dirname + '/../../renderer/setting.html')
   }
 }
 

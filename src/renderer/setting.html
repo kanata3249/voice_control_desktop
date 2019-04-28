@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Setting</title>
+</head>
+<body>
+
+<div class="etabs-tabgroup">
+  <div class="etabs-tabs"></div>
+  <div class="etabs-buttons"></div>
+</div>
+<div class="etabs-views" style="display: none; clear: left"></div>
+<div id="padding" style="clear: left"></div>
+
+<div id="network">
+  <form id="network-settings" name="settings" action="">
+    <label for="network-ipaddr">IP address:</label>
+    <input placeholder="host ip address" id="network-ipaddr" type=text value="">
+    <label for="network-port">Port number:</label>
+    <input placeholder="port number" id="network-port" type=text value="">
+    <button type=button id="network-apply">Apply</button>
+    <button type=button id="network-close">Close</button>
+  </form>
+  <hr>
+  <label for="network-url">Host URL:</label>
+  <p id="network-url"></p><br />
+  <label for="network-qrcode">QR code:</label>
+  <div id="network-qrcode"></div>
+</div>
+<div id="buttons">
+  <div id="buttons-targetType"></div>
+  <button id="buttons-apply">Apply</button>
+  <button id="buttons-close">Close</button>
+  <div id="buttons-table"></div>
+</div>
+<div id="replacer">
+  <div id="replacer-targetType"></div>
+  <button id="replacer-apply">Apply</button>
+  <button id="replacer-close">Close</button>
+  <div id="replacer-table"></div>
+</div>
+
+<script type="text/javascript" src="../../bundle/renderer.js"></script>
+<script src="../../ext/qrcode/qrcode.js"></script>
+<script type="text/javascript">
+  var { ipcRenderer } = require('electron')
+  const TabGroup = require('electron-tabs')
+  tabGroup = new TabGroup();
+
+  networkSetting = tabGroup.addTab({
+    title: 'Network',
+    src: './empty.html',
+    visible: true,
+    closable: false,
+  });
+  replacerSetting = tabGroup.addTab({
+    title: 'Replacer',
+    src: './empty.html',
+    visible: true,
+    closable: false
+  });
+  buttonsSetting = tabGroup.addTab({
+    title: 'Buttons',
+    src: './empty.html',
+    visible: true,
+    closable: false
+  });
+
+  function onTabChange(tabName) {
+    document.getElementById('network').style.display = tabName == 'Network' ? 'block' : 'none'
+    document.getElementById('buttons').style.display = tabName == 'Buttons' ? 'block' : 'none'
+    document.getElementById('replacer').style.display = tabName == 'Replacer' ? 'block' : 'none'
+    ipcRenderer.send('tab-active', tabName)
+  }
+
+  tabGroup.on('tab-active', (tab, tabGroup) => onTabChange(tab.getTitle()))
+  networkSetting.activate()
+</script>
+
+<script type="text/javascript">
+  function networkApply() {
+    updateHostUrl()
+
+    hostURL = document.getElementById('network-url').innerText
+    localIPAddress = document.getElementById('network-ipaddr').value
+    portNo = document.getElementById('network-port').value
+    newSettings = {
+      hostURL: `https://${localIPAddress}:${portNo}`,
+      hostIPAddress: localIPAddress,
+      portNo: portNo
+    }
+    ipcRenderer.send('network-apply', newSettings);
+  }
+  function setHostUrl(host, port) {
+    document.getElementById('network-ipaddr').value = host
+    document.getElementById('network-port').value = port
+    updateHostUrl()
+  }
+  function updateHostUrl() {
+    var url = 'https://' + document.getElementById('network-ipaddr').value + ':' + document.getElementById('network-port').value;
+    document.getElementById('network-url').innerText = url;
+    updateQrCode()
+  }
+  function updateQrCode() {
+    var typeNumber = 4;
+    var errorCorrectionLevel = 'L';
+    var qr = qrcode(typeNumber, errorCorrectionLevel);
+
+    qr.addData(document.getElementById('network-url').innerText);
+    qr.make();
+    document.getElementById('network-qrcode').innerHTML = qr.createImgTag(4);
+  }
+  document.getElementById('network-apply').onclick = networkApply;
+  document.getElementById('network-close').onclick = window.close;
+</script>
+
+<script type="text/javascript">
+  var newButtonSetting
+
+  function onButtonsChange(buttonSetting)
+  {
+    newButtonSetting = buttonSetting
+  }
+
+  function onButtonsTargetTypeChange(targetType)
+  {
+    ipcRenderer.send('buttons-targettype', targetType)
+  }
+
+  function setButtonSetting(buttonSetting, targetTypes, currentTargetType)
+  {
+    newButtonSetting = buttonSetting
+    loadComponent('ButtonSettingRoot', document.getElementById('buttons-table'), {buttonSetting: buttonSetting, onChange: onButtonsChange, key: currentTargetType})
+    loadComponent('TargetTypeSelection', document.getElementById('buttons-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onButtonsTargetTypeChange, key: currentTargetType})
+  }
+
+  function buttonsApply() {
+    ipcRenderer.send('buttons-apply', newButtonSetting);
+  }
+
+  document.getElementById('buttons-apply').onclick = buttonsApply;
+  document.getElementById('buttons-close').onclick = window.close;
+</script>
+
+<script type="text/javascript">
+  var newReplacerSetting
+
+  function onReplacerChange(replacerSetting)
+  {
+    newReplacerSetting = replacerSetting
+  }
+
+  function onReplacerTargetTypeChange(targetType)
+  {
+    ipcRenderer.send('replacer-targettype', targetType)
+  }
+
+  function setReplacer(replacerSetting, targetTypes, currentTargetType)
+  {
+    newReplacerSetting = replacerSetting
+    loadComponent('ReplacerSettingRoot', document.getElementById('replacer-table'), {replacerSetting: replacerSetting, onChange: onReplacerChange, key: currentTargetType})
+    loadComponent('TargetTypeSelection', document.getElementById('replacer-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onReplacerTargetTypeChange, key: currentTargetType})
+  }
+
+  function replacerApply() {
+    ipcRenderer.send('replacer-apply', newReplacerSetting);
+  }
+
+  document.getElementById('replacer-apply').onclick = replacerApply;
+  document.getElementById('replacer-close').onclick = window.close;
+</script>
+
+</body>
+</html>
