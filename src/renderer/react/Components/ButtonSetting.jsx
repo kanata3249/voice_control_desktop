@@ -39,18 +39,19 @@ export default class ButtonSetting extends React.Component {
   }
   
   render() {
-    const settings = this.props.buttonSetting;
-    const data = settings.tab.map((tab) => (
-      tab.buttons.map((item) => (
+    const settings = this.props.buttonSetting.tab || []
+    const data = settings.map((tab) => {
+      const buttons = tab.buttons || []
+      return buttons.map((item) => (
         {
           'tab': tab.label,
           'label': item.label,
           'action': item.action
         }
       ))
-    )).flat()
-    return <>
+    }).flat()
+    return (
       <MuiEditableTable colSpec={columns} rowData={data} onChange={this.onChange}/>
-    </>
+    )
   }
 }

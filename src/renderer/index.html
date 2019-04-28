@@ -8,8 +8,30 @@
 <body>
 
 <hr>
-<textarea id="message" style="width: 100%; height: 400px"></textarea>
+<div id="targetType"></div>
 <button id="setting">Setting</button>
+<textarea id="message" style="width: 100%; height: 400px"></textarea>
+  
+<script type="text/javascript" src="../../bundle/renderer.js"></script>
+<script type="text/javascript">
+  var { ipcRenderer } = require("electron")
+
+  function onSetting() {
+    ipcRenderer.send('main-setting');
+  }
+
+  function onTargetChange(target)
+  {
+    ipcRenderer.send('main-target', target)
+  }
+
+  function setTargetTypes(targetTypes, currentTarget)
+  {
+    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, readonly: true, onChange: onTargetChange})
+  }
+
+  document.getElementById('setting').onclick = onSetting;
+</script>
 
 </body>
 </html>

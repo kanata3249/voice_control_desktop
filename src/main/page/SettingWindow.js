@@ -2,79 +2,112 @@ const electron = require('electron')
 const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
+const loadDevtool = require('electron-load-devtool')
+
+const ReplacerSetting = require('../lib/ReplacerSetting')
+const ButtonSetting = require('../lib/ButtonSetting')
+
 module.exports = class SettingWindow {
-  constructor() {
+  constructor(settings) {
     this.window = null
-    this.activeTab = ""
+    this.activeTab = ''
+    this.settings = settings
   }
 
-  setNetworkSettings(settings) {
-    this.networkSettings = settings
+  setTargetType(targetType) {
+    if (this.currentTargetType != targetType) {
+      this.currentTargetType = targetType
+      this.buttonSetting = new ButtonSetting(targetType)
+      this.buttonSetting.load()
+      this.replacerSetting = new ReplacerSetting(targetType)
+      this.replacerSetting.load()
+      }
   }
 
-  setButtonSetting(buttonSetting) {
-    this.buttonSetting = buttonSetting
-  }
+  setActiveTab(tabName) {
+    if (this.activeTab != tabName) {
+      const urls = {
+        Network: '/../../renderer/networksetting.html',
+        Buttons: '/../../renderer/buttonsetting.html',
+        Replacer: '/../../renderer/replacesetting.html',
+      }
 
-  setReplacerSetting(replacerSetting) {
-    this.replacerSetting = replacerSetting
+      this.activeTab = tabName
+      this.window.loadURL('file://' + __dirname + urls[tabName])
+    }
   }
-
-  setCurrentNetworkSettings() {
-    this.window.webContents.executeJavaScript('document.settings.ipaddr.value = "' + this.networkSettings.settings.hostIPAddress + '";')
-    this.window.webContents.executeJavaScript('document.settings.port.value = "' + this.networkSettings.settings.portNo + '";')
+  
+  showCurrentNetworkSettings() {
+    this.window.webContents.executeJavaScript('document.settings.ipaddr.value = "' + this.settings.settings.hostIPAddress + '";')
+    this.window.webContents.executeJavaScript('document.settings.port.value = "' + this.settings.settings.portNo + '";')
     this.window.webContents.executeJavaScript('updateHostUrl();')
-    ipcMain.on(`network-apply`, (sender, newNetworkSettings) => {
-      this.networkSettings.save(newNetworkSettings)
-    })
   }
 
-  setCurrentButtonSetting() {
-    this.window.webContents.executeJavaScript(`setButtonSetting(${JSON.stringify(this.buttonSetting.settings)});`)
-    ipcMain.on(`buttons-apply`, (sender, newButtonSettings) => {
+  showCurrentButtonSetting() {
+    this.window.webContents.executeJavaScript(`setButtonSetting(${JSON.stringify(this.buttonSetting.settings)},
+                                                                ${JSON.stringify(this.settings.settings.targetTypes)},
+                                                                "${this.currentTargetType}");`)
+  }
+
+  showCurrentReplacerSetting() {
+    this.window.webContents.executeJavaScript(`setReplacer(${JSON.stringify(this.replacerSetting.settings)},
+                                                           ${JSON.stringify(this.settings.settings.targetTypes)},
+                                                           "${this.currentTargetType}");`)
+  }
+
+  registerEventHandlers() {
+    ipcMain.on(`tab-active`, (sender, tabName) => {
+      this.setActiveTab(tabName)
+    })
+    ipcMain.on(`network-apply`, (sender, newNetworkSettings) => {
+      newNetworkSettings.targetTypes = this.settings.settings.targetTypes
+      this.settings.save(newNetworkSettings)
+    })
+    ipcMain.on('buttons-apply', (sender, newButtonSettings) => {
+      this.settings.save(this.settings.settings)
       this.buttonSetting.save(newButtonSettings)
     })
-  }
-
-  setCurrentReplacerSetting() {
-    this.window.webContents.executeJavaScript(`setReplacer(${JSON.stringify(this.replacerSetting.settings)});`)
+    ipcMain.on('buttons-target', (sender, newTargetType) => {
+      if (!this.settings.settings.targetTypes.includes(newTargetType)) {
+        this.settings.settings.targetTypes.push(newTargetType)
+      }
+      this.setTargetType(newTargetType)
+      this.setCurrentButtonSetting()
+    })
     ipcMain.on(`replacer-apply`, (sender, newReplacer) => {
+      this.settings.save(this.settings.settings)
       this.replacerSetting.save(newReplacer)
+    })
+    ipcMain.on(`replacer-target`, (sender, newTargetType) => {
+      if (!this.settings.settings.targetTypes.includes(newTargetType)) {
+        this.settings.settings.targetTypes.push(newTargetType)
+      }
+      this.setTargetType(newTargetType)
+      this.setCurrentReplacerSetting()
     })
   }
 
   onFinishLoad() {
-    const setCurrentFunc = {
-      "Network": this.setCurrentNetworkSettings.bind(this),
-      "Buttons": this.setCurrentButtonSetting.bind(this),
-      "Replacer": this.setCurrentReplacerSetting.bind(this),
+    const showCurrentValueProc = {
+      'Network': this.showCurrentNetworkSettings.bind(this),
+      'Buttons': this.showCurrentButtonSetting.bind(this),
+      'Replacer': this.showCurrentReplacerSetting.bind(this),
     };
-    setCurrentFunc[this.activeTab]()
+    showCurrentValueProc[this.activeTab]()
   }
 
-  show(parent) {
+  show(parent, targetType) {
     this.window = this.window || new BrowserWindow({ parent: parent, show: false })
     this.window.once('ready-to-show', () => this.window.show())
     this.window.webContents.on('did-finish-load', this.onFinishLoad.bind(this))
     this.window.on('closed', () => { this.window = null })
-    this.activeTab = "Network"
-    this.window.loadURL('file://' + __dirname + '/../../renderer/networksetting.html')
+    loadDevtool(loadDevtool.REACT_DEVELOPER_TOOLS)
     // this.window.webContents.openDevTools()
 
-    ipcMain.on(`tab-active`, (sender, tabName) => {
-      if (this.activeTab != tabName) {
-        if (tabName == 'Network') {
-          this.window.loadURL('file://' + __dirname + '/../../renderer/networksetting.html')
-        }
-        if (tabName == 'Buttons') {
-          this.window.loadURL('file://' + __dirname + '/../../renderer/buttonsetting.html')
-        }
-        if (tabName == 'Replacer') {
-          this.window.loadURL('file://' + __dirname + '/../../renderer/replacesetting.html')
-        }
-      }
-      this.activeTab = tabName
-    })
+    this.registerEventHandlers()
+  
+    this.setTargetType(targetType)
+    this.setActiveTab('Network')
   }
 }
 

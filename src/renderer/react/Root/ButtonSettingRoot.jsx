@@ -1,5 +1,5 @@
 import React from 'react'
-import ButtonSetting from '../components/ButtonSetting.jsx'
+import ButtonSetting from '../Components/ButtonSetting.jsx'
 
 export default class ButtonSettingRoot extends React.Component {
   constructor(props) {

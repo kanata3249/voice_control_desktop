@@ -15,12 +15,14 @@
 <div class="etabs-views" style="display: none"></div>
 
 <br/>
-<div id="root"></div>
 
 <div>
+  <div id='targetType'></div>
   <button id='apply'>Apply</button>
   <button id='close'>Close</button>
 </div>
+
+<div id="root"></div>
 
 <script>
   var { ipcRenderer } = require("electron")
@@ -60,10 +62,16 @@
     newButtonSetting = buttonSetting
   }
 
-  function setButtonSetting(buttonSetting)
+  function onTargetChange(target)
+  {
+    ipcRenderer.send('buttons-target', target)
+  }
+
+  function setButtonSetting(buttonSetting, targetTypes, currentTarget)
   {
     newButtonSetting = buttonSetting
-    loadComponent('ButtonSettingRoot', document.getElementById('root'), {buttonSetting: buttonSetting, onChange: onChange})
+    loadComponent('ButtonSettingRoot', document.getElementById('root'), {buttonSetting: buttonSetting, onChange: onChange, key: currentTarget})
+    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, onChange: onTargetChange})
   }
 
   function apply() {

@@ -1,3 +1,11 @@
+
+const electron = require('electron')
+const app = electron.app
+const BrowserWindow = electron.BrowserWindow
+const ipcMain = electron.ipcMain
+
+const loadDevtool = require('electron-load-devtool')
+
 const Settings = require('../lib/Settings')
 const ApiServer = require('../lib/ApiServer')
 const ReplacerSetting = require('../lib/ReplacerSetting')
@@ -5,58 +13,17 @@ const ButtonSetting = require('../lib/ButtonSetting')
 const NativeWindow = require('../lib/NativeWindow')
 const SettingWindow = require('./SettingWindow')
 
-const electron = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-const ipcMain = electron.ipcMain
-
 let nativeWindow = new NativeWindow()
 let apiServer = null
 let settings = null
 let replacerSetting = null
 let buttonSetting = null
+let currentTarget
+
 let mainWindow = null
 let settingWindow = null
 
-const onRemoteEvent = (elementId, eventName, handler) => {
-  const script = `document.getElementById("${elementId}").${eventName} = (event) => { ipcRenderer.send("from-${elementId}", "${eventName}")}`
-  mainWindow.webContents.executeJavaScript(script)
-  ipcMain.on(`from-${elementId}`, handler)
-}
-
-const onRemoteIPC = (eventName, handler) => {
-  const script = `ipcRenderer.on("${eventName}", ${handler})`
-  mainWindow.webContents.executeJavaScript(script)
-}
-
-const registerEventHandlers = () => {
-  onRemoteEvent('setting', 'onclick', () => {
-    settingWindow.show(mainWindow, settings)
-  })
-
-  onRemoteIPC('input', (event, arg) => { document.getElementById("message").value += arg })
-}
-
-app.on('window-all-closed', function () {
-  app.quit()
-})
-
-app.on('ready', function () {
-  settings = new Settings('config')
-  settings.load()
-
-  replacerSetting = new ReplacerSetting('translation')
-  replacerSetting.load()
-  buttonSetting = new ButtonSetting('buttons')
-  buttonSetting.load()
-
-  mainWindow = new BrowserWindow({ width: 800, height: 600, show: false })
-  mainWindow.webContents.executeJavaScript('var { ipcRenderer } = require("electron")')
-  mainWindow.once('ready-to-show', () => mainWindow.show())
-  mainWindow.webContents.on('did-finish-load', registerEventHandlers)
-  mainWindow.on('closed', () => { mainWindow = null })
-  mainWindow.loadURL('file://' + __dirname + '/../../renderer/index.html')
-  // mainWindow.webContents.openDevTools()
+const prepareApiServer = () => {
   const api_handler = {
     "input": (data) => {
       const translated_text = replacerSetting.replace("appName", data)
@@ -65,7 +32,10 @@ app.on('ready', function () {
       return true
     },
     "buttons": () => {
-      return buttonSetting.settings;
+      return buttonSetting.settings
+    },
+    "targetTypes": () => {
+      return { targetTypes: settings.settings.targetTypes }
     }
   }
   apiServer = new ApiServer()
@@ -76,9 +46,52 @@ app.on('ready', function () {
     apiServer.stop()
     apiServer.start()
   })
+}
 
-  settingWindow = new SettingWindow()
-  settingWindow.setNetworkSettings(settings)
-  settingWindow.setReplacerSetting(replacerSetting)
-  settingWindow.setButtonSetting(buttonSetting)
+const setTargetType = (targetType) => {
+  if (currentTarget != targetType) {
+    currentTarget = targetType
+    replacerSetting = new ReplacerSetting(currentTarget)
+    replacerSetting.load()
+    buttonSetting = new ButtonSetting(currentTarget)
+    buttonSetting.load()
+  }
+}
+
+const registerEventHandlers = () => {
+  ipcMain.on('main-setting', () => {
+    settingWindow = settingWindow || new SettingWindow(settings)
+    settingWindow.show(mainWindow, currentTarget)
+  })
+  ipcMain.on('main-target', (sender, targetType) => {
+    setTargetType(targetType)
+  })
+}
+
+const onFinishLoad = () => {
+  mainWindow.webContents.executeJavaScript(`setTargetTypes(${JSON.stringify(settings.settings.targetTypes)},
+                                                           "${currentTarget}");`)
+}
+
+app.on('window-all-closed', function () {
+  app.quit()
+})
+
+app.on('ready', function () {
+  settings = new Settings('config')
+  settings.load()
+
+  setTargetType(settings.settings.targetTypes[0])
+  prepareApiServer()
+
+  mainWindow = new BrowserWindow({ width: 800, height: 600, show: false })
+  mainWindow.once('ready-to-show', () => mainWindow.show())
+  mainWindow.webContents.on('did-finish-load', onFinishLoad)
+  mainWindow.on('closed', () => { mainWindow = null })
+  loadDevtool(loadDevtool.REACT_DEVELOPER_TOOLS)
+  // mainWindow.webContents.openDevTools()
+
+  registerEventHandlers()
+
+  mainWindow.loadURL('file://' + __dirname + '/../../renderer/index.html')
 })

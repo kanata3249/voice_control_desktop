@@ -4,11 +4,6 @@ import MuiEditableTable from 'mui-editable-table'
 
 const columns = [
   {
-    title: 'Target application',
-    fieldName: 'application',
-    inputType: 'TextField'
-  },
-  {
     title: 'Input Text',
     fieldName: 'input',
     inputType: 'TextField'
@@ -27,27 +22,21 @@ export default class ReplacerSetting extends React.Component {
   }
 
   onChange(rowData) {
-    let newReplacerSetting = {}
+    let newReplacers = []
     rowData.forEach((item) => {
-      if (!newReplacerSetting.hasOwnProperty(item.application)) {
-        newReplacerSetting[item.application] = []
-      }
-      newReplacerSetting[item.application].push({ key: item.input, value: item.output })
+      newReplacers.push({ key: item.input, value: item.output })
     })
-    this.props.onChange && this.props.onChange(newReplacerSetting)
+    this.props.onChange && this.props.onChange({ replacers: newReplacers })
   }
   
   render() {
-    const settings = this.props.replacerSetting;
-    const data = Object.keys(settings).map((targetApplication) => (
-      settings[targetApplication].map((item) => (
+    const settings = this.props.replacerSetting.replacers || [];
+    const data = settings.map((item) => (
         {
-          'application': targetApplication,
           'input': item.key,
           'output': item.value
         }
-      ))
-    )).flat()
+    ))
     return <>
       <MuiEditableTable colSpec={columns} rowData={data} onChange={this.onChange}/>
     </>

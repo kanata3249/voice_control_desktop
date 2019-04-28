@@ -1,5 +1,5 @@
 import React from 'react'
-import ReplacerSetting from '../components/ReplacerSetting.jsx'
+import ReplacerSetting from '../Components/ReplacerSetting.jsx'
 
 export default class ReplacerSettingRoot extends React.Component {
   constructor(props) {

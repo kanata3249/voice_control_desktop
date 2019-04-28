@@ -16,12 +16,13 @@
 
 <br/>
 
-<div id="root"></div>
-
 <div>
+  <div id='targetType'></div>
   <button id='apply'>Apply</button>
   <button id='close'>Close</button>
 </div>
+
+<div id="root"></div>
 
 <script>
   var { ipcRenderer } = require("electron")
@@ -61,10 +62,16 @@
     newReplacerSetting = replacerSetting
   }
 
-  function setReplacer(replacerSetting)
+  function onTargetChange(target)
+  {
+    ipcRenderer.send('replacer-target', target)
+  }
+
+  function setReplacer(replacerSetting, targetTypes, currentTarget)
   {
     newReplacerSetting = replacerSetting
-    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacerSetting: replacerSetting, onChange: onChange})
+    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacerSetting: replacerSetting, onChange: onChange, key: currentTarget})
+    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, onChange: onTargetChange})
   }
 
   function apply() {

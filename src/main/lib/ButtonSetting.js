@@ -3,8 +3,11 @@ const storage = require('electron-json-storage-sync')
 module.exports = class ButtonSetting {
   constructor(filePath) {
     this.settings = null
-    this.filePath = filePath
     this.handler = null
+    this.filePath = 'buttons'
+    if (filePath && filePath != 'default') {
+      this.filePath = `${filePath}-buttons`
+    }
   }
 
   setChangeHandler(handler) {

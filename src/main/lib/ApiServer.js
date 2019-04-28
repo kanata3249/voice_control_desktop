@@ -27,6 +27,13 @@ module.exports = class ApiServer {
         res.status(400).send('Bad Request')
       }
     })
+    this.httpServer.get('/targetTypes', (req, res) => {
+      if (this.handler['targetTypes']) {
+        res.json(this.handler['targetTypes']())
+      } else {
+        res.status(400).send('Bad Request')
+      }
+    })
   }
 
   setSettings(settings) {

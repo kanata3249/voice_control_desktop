@@ -34,7 +34,10 @@ module.exports = class Settings {
     return {
       hostURL: `https://${localIPAddress}:${portNo}`,
       hostIPAddress: localIPAddress,
-      portNo: portNo
+      portNo: portNo,
+      targetTypes: [
+        "default"
+      ]
     }
   }
 
@@ -45,6 +48,11 @@ module.exports = class Settings {
     }
     if (!this.settings || Object.keys(this.settings).length == 0) {
       this.settings = this.loadDefault()
+    }
+    if (!this.settings.targetTypes || this.settings.targetTypes.length == 0 ) {
+      this.settings.targetTypes = [
+        "default"
+      ]
     }
     this.handler && this.handler()
   }
