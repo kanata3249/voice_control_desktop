@@ -72,7 +72,7 @@ module.exports = class SettingWindow {
         this.settings.settings.targetTypes.push(newTargetType)
       }
       this.setTargetType(newTargetType)
-      this.setCurrentButtonSetting()
+      this.showCurrentButtonSetting()
     })
     ipcMain.on(`replacer-apply`, (sender, newReplacer) => {
       this.settings.save(this.settings.settings)
@@ -83,7 +83,7 @@ module.exports = class SettingWindow {
         this.settings.settings.targetTypes.push(newTargetType)
       }
       this.setTargetType(newTargetType)
-      this.setCurrentReplacerSetting()
+      this.showCurrentReplacerSetting()
     })
   }
 
