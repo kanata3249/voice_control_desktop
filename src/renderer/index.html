@@ -20,14 +20,14 @@
     ipcRenderer.send('main-setting');
   }
 
-  function onTargetChange(target)
+  function onTargetTypeChange(targetType)
   {
-    ipcRenderer.send('main-target', target)
+    ipcRenderer.send('main-targettype', targetType)
   }
 
-  function setTargetTypes(targetTypes, currentTarget)
+  function setTargetTypes(targetTypes, currentTargetType)
   {
-    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, readonly: true, onChange: onTargetChange})
+    loadComponent('TargetTypeSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTargetType, readonly: true, onChange: onTargetTypeChange})
   }
 
   document.getElementById('setting').onclick = onSetting;

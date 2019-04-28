@@ -62,16 +62,16 @@
     newReplacerSetting = replacerSetting
   }
 
-  function onTargetChange(target)
+  function onTargetTypeChange(targetType)
   {
-    ipcRenderer.send('replacer-target', target)
+    ipcRenderer.send('replacer-targettype', targetType)
   }
 
-  function setReplacer(replacerSetting, targetTypes, currentTarget)
+  function setReplacer(replacerSetting, targetTypes, currentTargetType)
   {
     newReplacerSetting = replacerSetting
-    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacerSetting: replacerSetting, onChange: onChange, key: currentTarget})
-    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, onChange: onTargetChange})
+    loadComponent('ReplacerSettingRoot', document.getElementById('root'), {replacerSetting: replacerSetting, onChange: onChange, key: currentTargetType})
+    loadComponent('TargetTypeSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onTargetTypeChange})
   }
 
   function apply() {

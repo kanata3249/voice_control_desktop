@@ -62,16 +62,16 @@
     newButtonSetting = buttonSetting
   }
 
-  function onTargetChange(target)
+  function onTargetTypeChange(targetType)
   {
-    ipcRenderer.send('buttons-target', target)
+    ipcRenderer.send('buttons-targettype', targetType)
   }
 
-  function setButtonSetting(buttonSetting, targetTypes, currentTarget)
+  function setButtonSetting(buttonSetting, targetTypes, currentTargetType)
   {
     newButtonSetting = buttonSetting
-    loadComponent('ButtonSettingRoot', document.getElementById('root'), {buttonSetting: buttonSetting, onChange: onChange, key: currentTarget})
-    loadComponent('TargetSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTarget, onChange: onTargetChange})
+    loadComponent('ButtonSettingRoot', document.getElementById('root'), {buttonSetting: buttonSetting, onChange: onChange, key: currentTargetType})
+    loadComponent('TargetTypeSelection', document.getElementById('targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onTargetTypeChange})
   }
 
   function apply() {

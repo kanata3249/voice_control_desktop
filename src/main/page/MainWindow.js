@@ -18,7 +18,7 @@ let apiServer = null
 let settings = null
 let replacerSetting = null
 let buttonSetting = null
-let currentTarget
+let currentTargetType
 
 let mainWindow = null
 let settingWindow = null
@@ -49,11 +49,11 @@ const prepareApiServer = () => {
 }
 
 const setTargetType = (targetType) => {
-  if (currentTarget != targetType) {
-    currentTarget = targetType
-    replacerSetting = new ReplacerSetting(currentTarget)
+  if (currentTargetType != targetType) {
+    currentTargetType = targetType
+    replacerSetting = new ReplacerSetting(currentTargetType)
     replacerSetting.load()
-    buttonSetting = new ButtonSetting(currentTarget)
+    buttonSetting = new ButtonSetting(currentTargetType)
     buttonSetting.load()
   }
 }
@@ -61,16 +61,16 @@ const setTargetType = (targetType) => {
 const registerEventHandlers = () => {
   ipcMain.on('main-setting', () => {
     settingWindow = settingWindow || new SettingWindow(settings)
-    settingWindow.show(mainWindow, currentTarget)
+    settingWindow.show(mainWindow, currentTargetType)
   })
-  ipcMain.on('main-target', (sender, targetType) => {
+  ipcMain.on('main-targettype', (sender, targetType) => {
     setTargetType(targetType)
   })
 }
 
 const onFinishLoad = () => {
   mainWindow.webContents.executeJavaScript(`setTargetTypes(${JSON.stringify(settings.settings.targetTypes)},
-                                                           "${currentTarget}");`)
+                                                           "${currentTargetType}");`)
 }
 
 app.on('window-all-closed', function () {

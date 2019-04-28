@@ -3,7 +3,7 @@ import React from 'react'
 import Select  from 'react-select'
 import Creatable  from 'react-select/lib/Creatable'
 
-export default class TargetSelection extends React.Component {
+export default class TargetTypeSelection extends React.Component {
   constructor(props) {
     super(props)
     this.onChange = this.onChange.bind(this)

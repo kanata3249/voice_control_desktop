@@ -67,7 +67,7 @@ module.exports = class SettingWindow {
       this.settings.save(this.settings.settings)
       this.buttonSetting.save(newButtonSettings)
     })
-    ipcMain.on('buttons-target', (sender, newTargetType) => {
+    ipcMain.on('buttons-targettype', (sender, newTargetType) => {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {
         this.settings.settings.targetTypes.push(newTargetType)
       }
@@ -78,7 +78,7 @@ module.exports = class SettingWindow {
       this.settings.save(this.settings.settings)
       this.replacerSetting.save(newReplacer)
     })
-    ipcMain.on(`replacer-target`, (sender, newTargetType) => {
+    ipcMain.on(`replacer-targettype`, (sender, newTargetType) => {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {
         this.settings.settings.targetTypes.push(newTargetType)
       }
