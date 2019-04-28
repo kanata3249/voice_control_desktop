@@ -6,7 +6,7 @@ import ReplacerSettingRoot from './Root/ReplacerSettingRoot.jsx'
 import ButtonSettingRoot from './Root/ButtonSettingRoot.jsx'
 import TargetTypeSelection from './Components/TargetTypeSelection.jsx'
 
-import '../assets/css/main.css'
+import '../assets/css/main.less'
 import '../../../node_modules/electron-tabs/electron-tabs.css'
 
 
