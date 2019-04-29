@@ -41,8 +41,7 @@
   <div id="replacer-table"></div>
 </div>
 
-<script type="text/javascript" src="../../bundle/renderer.js"></script>
-<script src="../../ext/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="./bundle/renderer.js"></script>
 <script type="text/javascript">
   var { ipcRenderer } = require('electron')
   const TabGroup = require('electron-tabs')
@@ -100,16 +99,7 @@
   function updateHostUrl() {
     var url = 'https://' + document.getElementById('network-ipaddr').value + ':' + document.getElementById('network-port').value;
     document.getElementById('network-url').innerText = url;
-    updateQrCode()
-  }
-  function updateQrCode() {
-    var typeNumber = 4;
-    var errorCorrectionLevel = 'L';
-    var qr = qrcode(typeNumber, errorCorrectionLevel);
-
-    qr.addData(document.getElementById('network-url').innerText);
-    qr.make();
-    document.getElementById('network-qrcode').innerHTML = qr.createImgTag(4);
+    loadComponent('QrCode', document.getElementById('network-qrcode'), { text: url })
   }
   document.getElementById('network-apply').onclick = networkApply;
   document.getElementById('network-close').onclick = window.close;

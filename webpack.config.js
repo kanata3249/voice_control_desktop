@@ -1,9 +1,9 @@
 module.exports = {
   mode: 'development',
-  entry: './src/renderer/react/reactPages.js',
+  entry: './src/renderer/renderer.js',
   target: 'electron-renderer',
   output: {
-    path: `${__dirname}/bundle`,
+      path: `${__dirname}/src/renderer/bundle`,
     filename: 'renderer.js',
     libraryTarget: 'umd'
   },
@@ -11,7 +11,6 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {

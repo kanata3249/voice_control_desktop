@@ -18,6 +18,8 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
     "electron": "^4.1.4",
@@ -28,23 +30,20 @@
     "eslint-plugin-react": "^7.12.4",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "mui-editable-table": "git+https://github.com/kanata3249/mui-editable-table.git",
+    "qrcode-generator": "^1.4.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-select": "^2.4.3",
     "style-loader": "^0.23.1",
     "webpack": "^4.30.0",
     "webpack-command": "^0.4.2"
   },
   "dependencies": {
-    "@babel/register": "^7.4.0",
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
     "electron-json-storage-sync": "^1.1.1",
     "electron-load-devtool": "^1.2.0",
     "electron-tabs": "^0.9.5",
     "express": "^4.16.4",
-    "ffi": "^2.3.0",
-    "mui-editable-table": "git+https://github.com/kanata3249/mui-editable-table.git",
-    "qrcode-generator": "^1.4.3",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-select": "^2.4.3"
+    "ffi": "^2.3.0"
   }
 }
