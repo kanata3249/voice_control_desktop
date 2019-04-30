@@ -1,21 +1,95 @@
-h1 {
-  color: white
+$body-margin: 0px;
+$tab-height: 38px;
+$header-height: 54px;
+
+$header-margin: 8px;
+$contents-margin: 8px;
+
+html {
+  overflow-y: hidden;
 }
-h1 span {
-  margin-left: 1em
+
+body {
+  height: calc(100vh - #{$body-margin} * 2);
+  margin: $body-margin;
+  display: flex;
+  flex-direction: column;
 }
-/* body {
-  background-color: black
-} */
-.react-color {
-  color: #61dafb
+
+.setting-body {
+  height: calc(100% - #{$body-margin} * 2 - #{$tab-height} );
+  margin: $body-margin;
+  display: flex;
+  flex-direction: column;
 }
-.electron-color {
-  color: #9eeaf9 
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  height: calc(#{$header-height} - #{$header-margin} * 2);
+  margin: $header-margin;
+  padding: 0px;
+
+  .target-selection {
+    flex-grow: 1;
+    align-self: stretch;
+  }
+
+  button {
+    margin-left: 4px;
+    align-self: stretch;
+  }
 }
-.babel-color {
-  color: #f5da55
+
+.contents {
+  flex-grow: 1;
+  box-sizing: border-box;
+  margin: 0 $contents-margin $contents-margin $contents-margin;
+  padding: 1px;
+  align-self: stretch;
+
+  display: flex;
+  flex-direction: column;
+
+  textarea {
+    flex-grow: 1;
+  }
 }
-.webpack-color {
-  color: #e0e6e7
+
+.setting-contents {
+  flex-grow: 1;
+  box-sizing: border-box;
+  height: calc(100% - #{$header-height} - #{$body-margin});
+  margin: 0 $contents-margin $contents-margin $contents-margin;
+  padding: 4px;
+  border: solid 1px hsl(0,0%,80%);
+  border-radius: 4px;
+
+  display: flex;
+  flex-direction: column;
+
+  .container {
+    flex-grow: 1;
+    height: 100%;
+
+    .mui-editable-table {
+      height: 100%;
+
+      .mui-editable-table-rows {
+        overflow-y: auto;
+        flex-basis: 0;
+        flex-grow: 1;
+
+        .mui-editable-table-row {
+          flex-shrink: 0;
+        }
+      }
+    }
+    .row-cell.header-cell.actions {
+      width: 10% !important;
+    }
+    .cell.actions {
+      width: 10% !important;
+    }
+  }
 }

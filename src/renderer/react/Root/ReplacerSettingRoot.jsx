@@ -8,12 +8,7 @@ export default class ReplacerSettingRoot extends React.Component {
 
   render() {
     return(
-      <>
-        <div>
-          <ReplacerSetting replacerSetting={this.props.replacerSetting} onChange={this.props.onChange}/>
-        </div>
-        <hr />
-      </>
+      <ReplacerSetting replacerSetting={this.props.replacerSetting} onChange={this.props.onChange}/>
     )
   }
 }

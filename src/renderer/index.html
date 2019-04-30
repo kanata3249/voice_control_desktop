@@ -2,15 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Electron Read Us</title>
+<title>Voice Control Desktop</title>
 </head>
 <body>
 
-<hr>
-<div id="targetType"></div>
-<button id="setting">Setting</button>
-<textarea id="message" style="width: 100%; height: 400px"></textarea>
-  
+<div class="header">
+  <div class="target-selection" id="targetType"></div>
+ <button id="setting">Setting</button>
+</div>
+<div class="contents">
+  <textarea id="message"></textarea>
+</div>
+
 <script type="text/javascript" src="./bundle/renderer.js"></script>
 <script type="text/javascript">
   var { ipcRenderer } = require("electron")

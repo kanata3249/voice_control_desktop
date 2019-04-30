@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Setting</title>
+<title>Voice Control Desktop - Setting</title>
 </head>
 <body>
 
@@ -13,32 +13,41 @@
 <div class="etabs-views" style="display: none; clear: left"></div>
 <div id="padding" style="clear: left"></div>
 
-<div id="network">
-  <form id="network-settings" name="settings" action="">
-    <label for="network-ipaddr">IP address:</label>
-    <input placeholder="host ip address" id="network-ipaddr" type=text value="">
-    <label for="network-port">Port number:</label>
-    <input placeholder="port number" id="network-port" type=text value="">
+<div id="network" class="setting-body">
+  <div class="header">
     <button type=button id="network-apply">Apply</button>
     <button type=button id="network-close">Close</button>
-  </form>
-  <hr>
-  <label for="network-url">Host URL:</label>
-  <p id="network-url"></p><br />
-  <label for="network-qrcode">QR code:</label>
-  <div id="network-qrcode"></div>
+  </div>
+  <div class="setting-contents">
+    <form id="network-settings" name="settings" action="">
+      <label for="network-ipaddr">IP address:</label>
+      <input placeholder="host ip address" id="network-ipaddr" type=text value="">
+      <label for="network-port">Port number:</label>
+      <input placeholder="port number" id="network-port" type=text value="">
+    </form>
+    <hr>
+    <label for="network-url">Host URL:</label>
+    <p id="network-url"></p><br />
+    <label for="network-qrcode">QR code:</label>
+    <div id="network-qrcode"></div>
+  </div>
 </div>
-<div id="buttons">
-  <div id="buttons-targetType"></div>
-  <button id="buttons-apply">Apply</button>
-  <button id="buttons-close">Close</button>
-  <div id="buttons-table"></div>
+<div id="buttons" class="setting-body">
+  <div class="header">
+    <div class="target-selection" id="buttons-targetType"></div>
+    <button id="buttons-apply">Apply</button>
+    <button id="buttons-close">Close</button>
+  </div>
+  <div id="buttons-table" class="setting-contents"></div>
 </div>
-<div id="replacer">
-  <div id="replacer-targetType"></div>
-  <button id="replacer-apply">Apply</button>
-  <button id="replacer-close">Close</button>
-  <div id="replacer-table"></div>
+<div id="replacer" class="setting-body">
+  <div class="header">
+    <div class="target-selection" id="replacer-targetType"></div>
+    <button id="replacer-apply">Apply</button>
+    <button id="replacer-close">Close</button>
+  </div>
+  <div id="replacer-table" class="setting-contents">
+  </div>
 </div>
 
 <script type="text/javascript" src="./bundle/renderer.js"></script>

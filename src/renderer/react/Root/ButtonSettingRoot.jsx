@@ -8,12 +8,7 @@ export default class ButtonSettingRoot extends React.Component {
 
   render() {
     return(
-      <>
-        <div>
-          <ButtonSetting buttonSetting={this.props.buttonSetting} onChange={this.props.onChange}/>
-        </div>
-        <hr />
-      </>
+      <ButtonSetting buttonSetting={this.props.buttonSetting} onChange={this.props.onChange}/>
     )
   }
 }

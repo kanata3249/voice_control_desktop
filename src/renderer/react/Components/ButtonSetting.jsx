@@ -5,18 +5,21 @@ import MuiEditableTable from 'mui-editable-table'
 const columns = [
   {
     title: 'Tab',
-    fieldName: 'tab',
-    inputType: 'TextField'
+    fieldName: 'col-tab',
+    inputType: 'TextField',
+    width: '20%'
   },
   {
     title: 'Button label',
-    fieldName: 'label',
-    inputType: 'TextField'
+    fieldName: 'col-label',
+    inputType: 'TextField',
+    width: '35%'
   },
   {
     title: 'Button action',
-    fieldName: 'action',
-    inputType: 'TextField'
+    fieldName: 'col-action',
+    inputType: 'TextField',
+    width: '35%'
   }
 ]
 
@@ -44,9 +47,9 @@ export default class ButtonSetting extends React.Component {
       const buttons = tab.buttons || []
       return buttons.map((item) => (
         {
-          'tab': tab.label,
-          'label': item.label,
-          'action': item.action
+          'col-tab': tab.label,
+          'col-label': item.label,
+          'col-action': item.action
         }
       ))
     }).flat()

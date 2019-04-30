@@ -5,13 +5,15 @@ import MuiEditableTable from 'mui-editable-table'
 const columns = [
   {
     title: 'Input Text',
-    fieldName: 'input',
-    inputType: 'TextField'
+    fieldName: 'col-input',
+    inputType: 'TextField',
+    width: '40%'
   },
   {
     title: 'Replaced Text',
-    fieldName: 'output',
-    inputType: 'TextField'
+    fieldName: 'col-output',
+    inputType: 'TextField',
+    width: '50%'
   }
 ]
 
@@ -33,8 +35,8 @@ export default class ReplacerSetting extends React.Component {
     const settings = this.props.replacerSetting.replacers || [];
     const data = settings.map((item) => (
         {
-          'input': item.key,
-          'output': item.value
+          'col-input': item.key,
+          'col-output': item.value
         }
     ))
     return <>
