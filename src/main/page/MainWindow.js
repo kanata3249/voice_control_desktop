@@ -5,6 +5,7 @@ const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
 const loadDevtool = require('electron-load-devtool')
+const path = require('path')
 
 const Settings = require('../lib/Settings')
 const ApiServer = require('../lib/ApiServer')
@@ -84,7 +85,7 @@ app.on('ready', function () {
   setTargetType(settings.settings.targetTypes[0])
   prepareApiServer()
 
-  mainWindow = new BrowserWindow({ width: 800, height: 600, show: false })
+  mainWindow = new BrowserWindow({ width: 800, height: 600, show: false, icon: path.join(__dirname, '../assets/application.png') })
   mainWindow.once('ready-to-show', () => mainWindow.show())
   mainWindow.webContents.on('did-finish-load', onFinishLoad)
   mainWindow.on('closed', () => { mainWindow = null })
