@@ -75,14 +75,16 @@ class Win32Api {
     if (text.length == 0) {
       return
     }
-    const charCode = text.charCodeAt(0)
-    if (charCode == 0x0d) {
+    if (text.startsWith('\\n')) {
+      const charCode = 0x0d
       this.user32.PostMessageW(focusWindow, WM_KEYDOWN, charCode, 0)
       this.user32.PostMessageW(focusWindow, WM_KEYUP, charCode, 0xc0000000)
+      setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(2), delay)
     } else {
+      const charCode = text.charCodeAt(0)
       this.user32.PostMessageW(focusWindow, WM_IME_CHAR, charCode, 0)
+      setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(1), delay)
     }
-    setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(1), delay)
   }
 
   paste(text) {
