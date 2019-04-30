@@ -7,7 +7,7 @@ import ButtonSettingRoot from './react/Root/ButtonSettingRoot.jsx'
 import TargetTypeSelection from './react/Components/TargetTypeSelection.jsx'
 import QrCode from './react/Components/QrCode.jsx'
 
-import './assets/css/main.less'
+import './assets/css/main.scss'
 import './../../node_modules/electron-tabs/electron-tabs.css'
 
 
