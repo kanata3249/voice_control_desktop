@@ -3,6 +3,7 @@ const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
 
 const loadDevtool = require('electron-load-devtool')
+const path = require('path')
 
 const ReplacerSetting = require('../lib/ReplacerSetting')
 const ButtonSetting = require('../lib/ButtonSetting')
@@ -90,7 +91,7 @@ module.exports = class SettingWindow {
   }
 
   show(parent, targetType) {
-    this.window = this.window || new BrowserWindow({ parent: parent, show: false })
+    this.window = this.window || new BrowserWindow({ parent: parent, width: 700, height: 500, show: false, icon: path.join(__dirname, '../assets/application.png') })
     this.window.once('ready-to-show', () => this.window.show())
     this.window.webContents.on('did-finish-load', this.showCurrentSetting.bind(this))
     this.window.on('closed', () => { this.window = null })

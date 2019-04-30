@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack && electron .",
     "rebuild-modules": "electron-rebuild",
-    "package": "webpack -p && electron-packager . --package-manager yarn --overwrite --out=dist --asar --prune=true"
+    "package": "webpack -p && electron-packager . --package-manager yarn --overwrite --icon=src/main/assets/application.ico --out=dist --asar --prune=true"
   },
   "babel": {
     "presets": [
