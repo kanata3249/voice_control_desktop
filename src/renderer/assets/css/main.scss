@@ -82,14 +82,29 @@ body {
 
         .mui-editable-table-row {
           flex-shrink: 0;
+
+          .cell {
+            padding: 1px;
+          }
         }
       }
     }
     .row-cell.header-cell.actions {
-      width: 10% !important;
+      width: 90px !important;
     }
     .cell.actions {
-      width: 10% !important;
+      width: 90px !important;
+      display: flex;
+      flex-direction: row nowrap;
+    }
+    .cell.action {
+      width: 27px !important;
+      min-width: 27px !important;
+
+      .action-button {
+        min-width: 27px !important;
+        padding: 6px 1px !important;
+      }
     }
   }
 }

@@ -40,7 +40,7 @@ export default class ReplacerSetting extends React.Component {
         }
     ))
     return <>
-      <MuiEditableTable colSpec={columns} rowData={data} onChange={this.onChange}/>
+      <MuiEditableTable colSpec={columns} rowData={data} reorderable={true} onChange={this.onChange}/>
     </>
   }
 }

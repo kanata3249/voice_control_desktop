@@ -54,7 +54,7 @@ export default class ButtonSetting extends React.Component {
       ))
     }).flat()
     return (
-      <MuiEditableTable colSpec={columns} rowData={data} onChange={this.onChange}/>
+      <MuiEditableTable colSpec={columns} rowData={data} reorderable={true} onChange={this.onChange}/>
     )
   }
 }
