@@ -26,7 +26,7 @@ export default class ReplacerSetting extends React.Component {
   onChange(rowData) {
     let newReplacers = []
     rowData.forEach((item) => {
-      newReplacers.push({ key: item.input, value: item.output })
+      newReplacers.push({ key: item['col-input'], value: item['col-output'] })
     })
     this.props.onChange && this.props.onChange({ replacers: newReplacers })
   }

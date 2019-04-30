@@ -36,7 +36,7 @@ export default class ButtonSetting extends React.Component {
       if (index == -1) {
         index = newButton.tab.push({ label: item.tab, buttons: [] }) - 1
       }
-      newButton.tab[index].buttons.push({ label: item.label, action: item.action })
+      newButton.tab[index].buttons.push({ label: item['col-label'], action: item['col-action'] })
     })
     this.props.onChange && this.props.onChange(newButton)
   }
