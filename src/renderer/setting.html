@@ -31,12 +31,16 @@
 <div id="buttons" class="setting-body">
   <div class="header">
     <div class="target-selection" id="buttons-targetType"></div>
+    <div class="button" id="buttons-export"></div>
+    <div class="button" id="buttons-import"></div>
   </div>
   <div id="buttons-table" class="setting-contents"></div>
 </div>
 <div id="replacer" class="setting-body">
   <div class="header">
     <div class="target-selection" id="replacer-targetType"></div>
+    <div class="button" id="replacer-export"></div>
+    <div class="button" id="replacer-import"></div>
   </div>
   <div id="replacer-table" class="setting-contents">
   </div>
@@ -124,9 +128,23 @@
   function setButtonSetting(buttonSetting, targetTypes, currentTargetType)
   {
     newButtonSetting = buttonSetting
-    loadComponent('ButtonSettingRoot', document.getElementById('buttons-table'), {buttonSetting: buttonSetting, onChange: onButtonsChange, key: currentTargetType})
-    loadComponent('TargetTypeSelection', document.getElementById('buttons-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onButtonsTargetTypeChange, key: currentTargetType})
+    loadComponent('ButtonSettingRoot', document.getElementById('buttons-table'), {buttonSetting: buttonSetting, onChange: onButtonsChange, key: 'refresh' })
+    loadComponent('TargetTypeSelection', document.getElementById('buttons-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onButtonsTargetTypeChange, key: 'refresh' })
   }
+
+
+  function onButtunsImport()
+  {
+    ipcRenderer.send('buttons-import')
+  }
+
+  function onButtunsExport()
+  {
+    ipcRenderer.send('buttons-export')
+  }
+
+  loadComponent('ImportButton', document.getElementById('buttons-import'), { onClick: onButtunsImport })
+  loadComponent('ExportButton', document.getElementById('buttons-export'), { onClick: onButtunsExport })
 </script>
 
 <script type="text/javascript">
@@ -146,9 +164,22 @@
   function setReplacer(replacerSetting, targetTypes, currentTargetType)
   {
     newReplacerSetting = replacerSetting
-    loadComponent('ReplacerSettingRoot', document.getElementById('replacer-table'), {replacerSetting: replacerSetting, onChange: onReplacerChange, key: currentTargetType})
-    loadComponent('TargetTypeSelection', document.getElementById('replacer-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onReplacerTargetTypeChange, key: currentTargetType})
+    loadComponent('ReplacerSettingRoot', document.getElementById('replacer-table'), {replacerSetting: replacerSetting, onChange: onReplacerChange, key: 'refresh'})
+    loadComponent('TargetTypeSelection', document.getElementById('replacer-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onReplacerTargetTypeChange, key: 'refresh'})
   }
+
+  function onReplacerImport()
+  {
+    ipcRenderer.send('replacer-import')
+  }
+
+  function onReplacerExport()
+  {
+    ipcRenderer.send('replacer-export')
+  }
+
+  loadComponent('ImportButton', document.getElementById('replacer-import'), { onClick: onReplacerImport })
+  loadComponent('ExportButton', document.getElementById('replacer-export'), { onClick: onReplacerExport })
 </script>
 
 </body>

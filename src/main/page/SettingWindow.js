@@ -1,6 +1,7 @@
 const electron = require('electron')
 const BrowserWindow = electron.BrowserWindow
 const ipcMain = electron.ipcMain
+const dialog = electron.dialog
 
 const loadDevtool = require('electron-load-devtool')
 const path = require('path')
@@ -78,6 +79,50 @@ module.exports = class SettingWindow {
       }
       this.setTargetType(newTargetType)
       this.showCurrentReplacerSetting()
+    })
+    ipcMain.on('buttons-export', () => {
+      electron.clipboard.writeText( JSON.stringify(this.buttonSetting.settings) )
+    })
+    ipcMain.on('buttons-import', () => {
+      const data = electron.clipboard.readText()
+      let newSetting = null
+      try {
+        newSetting = JSON.parse(data || "null")
+      }
+      catch(e) {
+        // nop
+      }
+      finally {
+        if ( newSetting && newSetting.tab ) {
+          this.buttonSetting.settings = newSetting
+          this.showCurrentButtonSetting()
+          this.buttonSetting.save(newSetting)
+        } else {
+          dialog.showErrorBox('Copy from clipboard', 'Clipboard data was not valid format.' )
+        }
+      }
+    })
+    ipcMain.on('replacer-export', () => {
+      electron.clipboard.writeText( JSON.stringify(this.replacerSetting.settings) )
+    })
+    ipcMain.on('replacer-import', () => {
+      const data = electron.clipboard.readText()
+      let newSetting = null
+      try {
+        newSetting = JSON.parse(data || "null")
+      }
+      catch(e) {
+        // nop
+      }
+      finally {
+        if ( newSetting && newSetting.replacers ) {
+          this.replacerSetting.settings = newSetting
+          this.showCurrentReplacerSetting()
+          this.replacerSetting.save(newSetting)
+        } else {
+          dialog.showErrorBox('Copy from clipboard', 'Clipboard data was not valid format.' )
+        }
+      }
     })
   }
 

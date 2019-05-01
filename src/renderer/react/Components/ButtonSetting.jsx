@@ -32,9 +32,9 @@ export default class ButtonSetting extends React.Component {
   onChange(rowData) {
     let newButton = { tab: [] }
     rowData.forEach((item) => {
-      let index = newButton.tab.findIndex((element) => element.label == item.tab)
+      let index = newButton.tab.findIndex((element) => element.label == item['col-tab'])
       if (index == -1) {
-        index = newButton.tab.push({ label: item.tab, buttons: [] }) - 1
+        index = newButton.tab.push({ label: item['col-tab'], buttons: [] }) - 1
       }
       newButton.tab[index].buttons.push({ label: item['col-label'], action: item['col-action'] })
     })
