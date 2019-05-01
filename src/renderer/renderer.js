@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Root from './react/Root/Root.jsx'
 import ReplacerSettingRoot from './react/Root/ReplacerSettingRoot.jsx'
 import ButtonSettingRoot from './react/Root/ButtonSettingRoot.jsx'
 import TargetTypeSelection from './react/Components/TargetTypeSelection.jsx'
@@ -15,7 +14,6 @@ let refreshKey = 0
 
 export const loadComponent = (componentName, element, props) => {
   const component = {
-    'Root': Root,
     'ReplacerSettingRoot': ReplacerSettingRoot,
     'ButtonSettingRoot': ButtonSettingRoot,
     'TargetTypeSelection': TargetTypeSelection,
