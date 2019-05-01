@@ -1,4 +1,6 @@
 const storage = require('electron-json-storage-sync')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = class ReplacerSetting {
   constructor(filePath) {
@@ -15,14 +17,21 @@ module.exports = class ReplacerSetting {
   }
 
   loadDefault() {
-    return {
-      "replacers": [
-        {
-          "key": "決定",
-          "value": "\\r"
-        }
-      ]
+    let defaultSetting
+    try {
+      defaultSetting = JSON.parse(fs.readFileSync(path.join(__dirname, '../../replacers.json'), 'utf8'))
     }
+    catch(e) {
+      defaultSetting = {
+        "replacers": [
+          {
+            "key": "Enter",
+            "value": "\\n"
+          }
+        ]
+      }
+    }
+    return defaultSetting
   }
 
   load() {

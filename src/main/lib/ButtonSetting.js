@@ -1,4 +1,6 @@
 const storage = require('electron-json-storage-sync')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = class ButtonSetting {
   constructor(filePath) {
@@ -15,28 +17,26 @@ module.exports = class ButtonSetting {
   }
 
   loadDefault() {
-    return {
-      "tab": [
-        {
-          "label": "tab1",
-          "buttons": [
-            {
-              "label": "action1",
-              "action": "<button1>"
-            }
-          ],
-        },
-        {
-          "label": "tab2",
-          "buttons": [
-            {
-              "label": "emote1",
-              "action": "<button2>"
-            }
-          ]
-        }
-      ]
+    let defaultSetting
+    try {
+      defaultSetting = JSON.parse(fs.readFileSync(path.join(__dirname, '../../buttons.json'), 'utf8'))
     }
+    catch(e) {
+      defaultSetting = {
+        "tab": [
+          {
+            "label": "tab1",
+            "buttons": [
+              {
+                "label": "action1",
+                "action": "action text"
+              }
+            ]
+          }
+        ]
+      }
+    }
+    return defaultSetting
   }
 
   load() {
