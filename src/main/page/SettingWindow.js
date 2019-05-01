@@ -10,10 +10,11 @@ const ReplacerSetting = require('../lib/ReplacerSetting')
 const ButtonSetting = require('../lib/ButtonSetting')
 
 module.exports = class SettingWindow {
-  constructor(settings) {
+  constructor(settings, onChange) {
     this.window = null
     this.activeTab = ''
     this.settings = settings
+    this.onChange = onChange
   }
 
   setTargetType(targetType) {
@@ -24,6 +25,10 @@ module.exports = class SettingWindow {
       this.replacerSetting = new ReplacerSetting(targetType)
       this.replacerSetting.load()
       }
+  }
+
+  isFocused() {
+    return this.window && this.window.isFocused()
   }
 
   setActiveTab(tabName) {
@@ -57,10 +62,12 @@ module.exports = class SettingWindow {
     ipcMain.on(`network-apply`, (sender, newNetworkSettings) => {
       newNetworkSettings.targetTypes = this.settings.settings.targetTypes
       this.settings.save(newNetworkSettings)
+      this.onChange('network')
     })
     ipcMain.on('buttons-apply', (sender, newButtonSettings) => {
       this.settings.save(this.settings.settings)
       this.buttonSetting.save(newButtonSettings)
+      this.onChange('buttons')
     })
     ipcMain.on('buttons-targettype', (sender, newTargetType) => {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {
@@ -72,6 +79,7 @@ module.exports = class SettingWindow {
     ipcMain.on(`replacer-apply`, (sender, newReplacer) => {
       this.settings.save(this.settings.settings)
       this.replacerSetting.save(newReplacer)
+      this.onChange('replacer')
     })
     ipcMain.on(`replacer-targettype`, (sender, newTargetType) => {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {

@@ -28,8 +28,10 @@ const prepareApiServer = () => {
   const api_handler = {
     "input": (data) => {
       const translated_text = replacerSetting.replace("appName", data)
-      mainWindow.webContents.send('input', `${translated_text}`)
-      nativeWindow.paste(translated_text)
+      mainWindow.webContents.send('input', `${translated_text}`, `${data}`)
+      if (!mainWindow.isFocused() && !settingWindow.isFocused()) {
+        nativeWindow.paste(translated_text)
+      }
       return true
     },
     "buttons": () => {
@@ -43,10 +45,6 @@ const prepareApiServer = () => {
   apiServer.setSettings(settings)
   apiServer.setApiHandler(api_handler)
   apiServer.start()
-  settings.setChangeHandler(() => {
-    apiServer.stop()
-    apiServer.start()
-  })
 }
 
 const setTargetType = (targetType) => {
@@ -61,7 +59,6 @@ const setTargetType = (targetType) => {
 
 const registerEventHandlers = () => {
   ipcMain.on('main-setting', () => {
-    settingWindow = settingWindow || new SettingWindow(settings)
     settingWindow.show(mainWindow, currentTargetType)
   })
   ipcMain.on('main-targettype', (sender, targetType) => {
@@ -74,6 +71,22 @@ const onFinishLoad = () => {
                                                            "${currentTargetType}");`)
 }
 
+const onSettingChange = (settingType) => {
+  const onSettingChangeProc = {
+    'network': () => {
+      apiServer.stop()
+      apiServer.start()
+    },
+    "buttons": () => {
+      buttonSetting.load()
+    },
+    "replacer": () => {
+      replacerSetting.load()
+    }
+  }
+  onSettingChangeProc[settingType]()
+}
+
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -84,6 +97,7 @@ app.on('ready', function () {
 
   setTargetType(settings.settings.targetTypes[0])
   prepareApiServer()
+  settingWindow = new SettingWindow(settings, onSettingChange)
 
   mainWindow = new BrowserWindow({ width: 800, height: 600, show: false, icon: path.join(__dirname, '../assets/application.png') })
   mainWindow.once('ready-to-show', () => mainWindow.show())

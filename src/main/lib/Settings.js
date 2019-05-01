@@ -21,11 +21,6 @@ module.exports = class Settings {
   constructor(filePath) {
     this.settings = null
     this.filePath = filePath
-    this.handler = null
-  }
-
-  setChangeHandler(handler) {
-    this.handler = handler
   }
 
   loadDefault() {
@@ -54,7 +49,6 @@ module.exports = class Settings {
         "default"
       ]
     }
-    this.handler && this.handler()
   }
 
   save(newSettings) {
