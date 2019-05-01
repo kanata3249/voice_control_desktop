@@ -75,20 +75,25 @@ class Win32Api {
     if (text.length == 0) {
       return
     }
-    if (text.startsWith('\\n')) {
-      const charCode = 0x0d
-      this.user32.PostMessageW(focusWindow, WM_KEYDOWN, charCode, 0)
-      this.user32.PostMessageW(focusWindow, WM_KEYUP, charCode, 0xc0000000)
-      setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(2), delay)
-    } else {
-      const charCode = text.charCodeAt(0)
-      this.user32.PostMessageW(focusWindow, WM_IME_CHAR, charCode, 0)
-      setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(1), delay)
+
+    const keyCodeTable = {
+      0x0a: 0x0d,         // '\n'
+      0x2f: 0xbf          // '/'
     }
+
+    const charCode = text.charCodeAt(0)
+    const keyCode = keyCodeTable[charCode]
+    if (keyCode) {
+      this.user32.PostMessageW(focusWindow, WM_KEYDOWN, keyCode, 0)
+      this.user32.PostMessageW(focusWindow, WM_KEYUP, keyCode, 0xc0000000)
+    } else {
+      this.user32.PostMessageW(focusWindow, WM_IME_CHAR, charCode, 0)
+    }
+    setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(1), delay)
   }
 
   paste(text) {
     const focusWindow = this.getFocusWindow()
-    this.sendTextWithDelay(focusWindow, text, 1)
+    this.sendTextWithDelay(focusWindow, text, 20)
   }
 }

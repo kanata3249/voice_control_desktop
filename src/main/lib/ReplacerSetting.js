@@ -53,13 +53,15 @@ module.exports = class ReplacerSetting {
 
   replace(application, text) {
     const replace_data_array = this.settings.replacers
+    let resultText
 
-    const translation = replace_data_array.find((element) => element.key === text)
-    if (translation) {
-      // todo substitution arguments
-      return translation.value
-    }
-    return text
+    resultText = text
+    replace_data_array.forEach((element) => {
+      const re = RegExp(element.key)
+      resultText = resultText.replace(re, element.value)
+    })
+    resultText = resultText.replace('\\n', '\n')
+    return resultText
   }
 }
 
