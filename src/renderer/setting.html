@@ -14,10 +14,6 @@
 <div id="padding" style="clear: left"></div>
 
 <div id="network" class="setting-body">
-  <div class="header">
-    <button type=button id="network-apply">Apply</button>
-    <button type=button id="network-close">Close</button>
-  </div>
   <div class="setting-contents">
     <form id="network-settings" name="settings" action="">
       <label for="network-ipaddr">IP address:</label>
@@ -35,16 +31,12 @@
 <div id="buttons" class="setting-body">
   <div class="header">
     <div class="target-selection" id="buttons-targetType"></div>
-    <button id="buttons-apply">Apply</button>
-    <button id="buttons-close">Close</button>
   </div>
   <div id="buttons-table" class="setting-contents"></div>
 </div>
 <div id="replacer" class="setting-body">
   <div class="header">
     <div class="target-selection" id="replacer-targetType"></div>
-    <button id="replacer-apply">Apply</button>
-    <button id="replacer-close">Close</button>
   </div>
   <div id="replacer-table" class="setting-contents">
   </div>
@@ -110,8 +102,9 @@
     document.getElementById('network-url').innerText = url;
     loadComponent('QrCode', document.getElementById('network-qrcode'), { text: url })
   }
-  document.getElementById('network-apply').onclick = networkApply;
-  document.getElementById('network-close').onclick = window.close;
+  document.getElementById('network-ipaddr').onchange = networkApply;
+  document.getElementById('network-port').onchange = networkApply;
+  window.onunload = networkApply;
 </script>
 
 <script type="text/javascript">
@@ -120,6 +113,7 @@
   function onButtonsChange(buttonSetting)
   {
     newButtonSetting = buttonSetting
+    ipcRenderer.send('buttons-apply', newButtonSetting);
   }
 
   function onButtonsTargetTypeChange(targetType)
@@ -133,13 +127,6 @@
     loadComponent('ButtonSettingRoot', document.getElementById('buttons-table'), {buttonSetting: buttonSetting, onChange: onButtonsChange, key: currentTargetType})
     loadComponent('TargetTypeSelection', document.getElementById('buttons-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onButtonsTargetTypeChange, key: currentTargetType})
   }
-
-  function buttonsApply() {
-    ipcRenderer.send('buttons-apply', newButtonSetting);
-  }
-
-  document.getElementById('buttons-apply').onclick = buttonsApply;
-  document.getElementById('buttons-close').onclick = window.close;
 </script>
 
 <script type="text/javascript">
@@ -148,6 +135,7 @@
   function onReplacerChange(replacerSetting)
   {
     newReplacerSetting = replacerSetting
+    ipcRenderer.send('replacer-apply', newReplacerSetting);
   }
 
   function onReplacerTargetTypeChange(targetType)
@@ -161,13 +149,6 @@
     loadComponent('ReplacerSettingRoot', document.getElementById('replacer-table'), {replacerSetting: replacerSetting, onChange: onReplacerChange, key: currentTargetType})
     loadComponent('TargetTypeSelection', document.getElementById('replacer-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onReplacerTargetTypeChange, key: currentTargetType})
   }
-
-  function replacerApply() {
-    ipcRenderer.send('replacer-apply', newReplacerSetting);
-  }
-
-  document.getElementById('replacer-apply').onclick = replacerApply;
-  document.getElementById('replacer-close').onclick = window.close;
 </script>
 
 </body>
