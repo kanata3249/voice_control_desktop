@@ -113,6 +113,7 @@ body {
 
 #network {
   .setting-contents {
+    margin: $contents-margin;
     height: calc(100% - #{$body-margin});
   }
 }
