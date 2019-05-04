@@ -136,9 +136,9 @@ module.exports = class SettingWindow {
 
   showCurrentSetting() {
     const showCurrentSettingProc = {
-      'Network': this.showCurrentNetworkSettings.bind(this),
-      'Buttons': this.showCurrentButtonSetting.bind(this),
-      'Replacer': this.showCurrentReplacerSetting.bind(this),
+      'network': this.showCurrentNetworkSettings.bind(this),
+      'buttons': this.showCurrentButtonSetting.bind(this),
+      'replacer': this.showCurrentReplacerSetting.bind(this),
     };
     showCurrentSettingProc[this.activeTab]()
   }
@@ -154,7 +154,7 @@ module.exports = class SettingWindow {
     this.registerEventHandlers()
   
     this.setTargetType(targetType)
-    this.setActiveTab('Network')
+    this.setActiveTab('network')
 
     this.window.loadURL('file://' + __dirname + '/../../renderer/setting.html')
   }

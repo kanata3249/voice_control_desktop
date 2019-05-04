@@ -1,0 +1,18 @@
+{
+  "mainWindow_title": "PC Voice Command",
+  "settingWindow_title": "PC Voice Command - settings",
+  "settingWindow_tab_network": "Network",
+  "settingWindow_tab_replacer": "Replacers",
+  "settingWindow_tab_buttons": "Buttons",
+  "networkSetting_ipaddr_label": "Local IP address",
+  "networkSetting_port_label": "Port No",
+  "networkSetting_qrcode_label": "QR code for mobile app",
+  "buttonSetting_column_tab": "Tab",
+  "buttonSetting_column_label": "Button label",
+  "buttonSetting_column_action": "Button action",
+  "replacerSetting_column_input": "Input Text",
+  "replacerSetting_column_replaced": "Replaced Text",
+  "importButton_tooltip": "Copy from Clipboard",
+  "exportButton_tooltip": "Copy to Clipboard",
+  "settingButton_tooltip": "Open preferences"
+}

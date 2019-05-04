@@ -1,26 +1,26 @@
 import React from 'react'
 
 import MuiEditableTable from 'mui-editable-table'
-
-const columns = [
-  {
-    title: 'Input Text',
-    fieldName: 'col-input',
-    inputType: 'TextField',
-    width: '40%'
-  },
-  {
-    title: 'Replaced Text',
-    fieldName: 'col-output',
-    inputType: 'TextField',
-    width: '50%'
-  }
-]
+import Messages from '../../Messages'
 
 export default class ReplacerSetting extends React.Component {
   constructor(props) {
     super(props)
     this.onChange = this.onChange.bind(this)
+    this.columns = [
+      {
+        title: Messages.replacerSetting_column_input,
+        fieldName: 'col-input',
+        inputType: 'TextField',
+        width: '40%'
+      },
+      {
+        title: Messages.replacerSetting_column_replaced,
+        fieldName: 'col-output',
+        inputType: 'TextField',
+        width: '50%'
+      }
+    ]
   }
 
   onChange(rowData) {
@@ -40,7 +40,7 @@ export default class ReplacerSetting extends React.Component {
         }
     ))
     return <>
-      <MuiEditableTable colSpec={columns} rowData={data} reorderable={true} onChange={this.onChange}/>
+      <MuiEditableTable colSpec={this.columns} rowData={data} reorderable={true} onChange={this.onChange}/>
     </>
   }
 }

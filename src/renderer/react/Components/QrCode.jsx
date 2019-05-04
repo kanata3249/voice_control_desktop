@@ -15,7 +15,7 @@ export default class QrCode extends React.Component {
     qr.make();
   
     return (
-      <img src={qr.createDataURL(cellSize)}></img>
+      <img src={qr.createDataURL(cellSize)} className={this.props.className}></img>
     )
   }
 }

@@ -14,19 +14,7 @@
 <div id="padding" style="clear: left"></div>
 
 <div id="network" class="setting-body">
-  <div class="setting-contents">
-    <form id="network-settings" name="settings" action="">
-      <label for="network-ipaddr">IP address:</label>
-      <input placeholder="host ip address" id="network-ipaddr" type=text value="">
-      <label for="network-port">Port number:</label>
-      <input placeholder="port number" id="network-port" type=text value="">
-    </form>
-    <hr>
-    <label for="network-url">Host URL:</label>
-    <p id="network-url"></p><br />
-    <label for="network-qrcode">QR code:</label>
-    <div id="network-qrcode"></div>
-  </div>
+  <div id="network-settings" class="setting-contents"></div>
 </div>
 <div id="buttons" class="setting-body">
   <div class="header">
@@ -50,65 +38,57 @@
 <script type="text/javascript">
   var { ipcRenderer } = require('electron')
   const TabGroup = require('electron-tabs')
+
+  Messages.setLocale(navigator.language)
+  document.title = Messages.settingWindow_title
+
   tabGroup = new TabGroup();
 
   networkSetting = tabGroup.addTab({
-    title: 'Network',
+    title: Messages.settingWindow_tab_network,
     src: './empty.html',
     visible: true,
     closable: false,
   });
   replacerSetting = tabGroup.addTab({
-    title: 'Replacer',
+    title: Messages.settingWindow_tab_replacer,
     src: './empty.html',
     visible: true,
     closable: false
   });
   buttonsSetting = tabGroup.addTab({
-    title: 'Buttons',
+    title: Messages.settingWindow_tab_buttons,
     src: './empty.html',
     visible: true,
     closable: false
   });
+  const tabId = [ "network", "replacer", "buttons" ]
 
-  function onTabChange(tabName) {
-    document.getElementById('network').style.display = tabName == 'Network' ? 'block' : 'none'
-    document.getElementById('buttons').style.display = tabName == 'Buttons' ? 'block' : 'none'
-    document.getElementById('replacer').style.display = tabName == 'Replacer' ? 'block' : 'none'
-    ipcRenderer.send('tab-active', tabName)
+  function onTabChange(tab) {
+    document.getElementById('network').style.display = tab == networkSetting ? 'block' : 'none'
+    document.getElementById('buttons').style.display = tab == buttonsSetting ? 'block' : 'none'
+    document.getElementById('replacer').style.display = tab == replacerSetting ? 'block' : 'none'
+    ipcRenderer.send('tab-active', tabId[tab.id])
   }
 
-  tabGroup.on('tab-active', (tab, tabGroup) => onTabChange(tab.getTitle()))
+  tabGroup.on('tab-active', (tab, tabGroup) => onTabChange(tab))
   networkSetting.activate()
 </script>
 
 <script type="text/javascript">
-  function networkApply() {
-    updateHostUrl()
-
-    hostURL = document.getElementById('network-url').innerText
-    localIPAddress = document.getElementById('network-ipaddr').value
-    portNo = document.getElementById('network-port').value
+  function onNetworkSettingChange(ipaddr, port)
+  {
     newSettings = {
-      hostURL: `https://${localIPAddress}:${portNo}`,
-      hostIPAddress: localIPAddress,
-      portNo: portNo
+      hostURL: `https://${ipaddr}:${port}`,
+      hostIPAddress: ipaddr,
+      portNo: port
     }
     ipcRenderer.send('network-apply', newSettings);
   }
-  function setHostUrl(host, port) {
-    document.getElementById('network-ipaddr').value = host
-    document.getElementById('network-port').value = port
-    updateHostUrl()
+
+  function setHostUrl(ipaddr, port) {
+    loadComponent('NetworkSettingRoot', document.getElementById('network-settings'), {ipaddr: ipaddr, port: port, onChange: onNetworkSettingChange, key: 'refresh' })
   }
-  function updateHostUrl() {
-    var url = 'https://' + document.getElementById('network-ipaddr').value + ':' + document.getElementById('network-port').value;
-    document.getElementById('network-url').innerText = url;
-    loadComponent('QrCode', document.getElementById('network-qrcode'), { text: url })
-  }
-  document.getElementById('network-ipaddr').onchange = networkApply;
-  document.getElementById('network-port').onchange = networkApply;
-  window.onunload = networkApply;
 </script>
 
 <script type="text/javascript">
@@ -131,7 +111,6 @@
     loadComponent('ButtonSettingRoot', document.getElementById('buttons-table'), {buttonSetting: buttonSetting, onChange: onButtonsChange, key: 'refresh' })
     loadComponent('TargetTypeSelection', document.getElementById('buttons-targetType'), {targetTypes: targetTypes, value: currentTargetType, onChange: onButtonsTargetTypeChange, key: 'refresh' })
   }
-
 
   function onButtunsImport()
   {

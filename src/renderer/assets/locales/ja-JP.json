@@ -1,0 +1,18 @@
+{
+  "mainWindow_title": "PC Voice Command",
+  "settingWindow_title": "PC Voice Command - 設定",
+  "settingWindow_tab_network": "ネットワーク",
+  "settingWindow_tab_replacer": "置換",
+  "settingWindow_tab_buttons": "ボタン",
+  "networkSetting_ipaddr_label": "自IPアドレス",
+  "networkSetting_port_label": "ポート番号",
+  "networkSetting_qrcode_label": "QRコード(スマホ側アプリ設定用)",
+  "buttonSetting_column_tab": "タブ",
+  "buttonSetting_column_label": "ラベル",
+  "buttonSetting_column_action": "テキスト",
+  "replacerSetting_column_input": "入力テキスト",
+  "replacerSetting_column_replaced": "置換後テキスト",
+  "importButton_tooltip": "クリップボードからコピー",
+  "exportButton_tooltip": "クリップボードへコピー",
+  "settingButton_tooltip": "設定を開く"
+}

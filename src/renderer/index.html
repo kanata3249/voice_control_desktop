@@ -8,7 +8,7 @@
 
 <div class="header">
   <div class="target-selection" id="target-type"></div>
- <button id="setting">Setting</button>
+  <div class="setting" id="setting"></div>
 </div>
 <div class="contents">
   <textarea id="input-log"></textarea>
@@ -17,6 +17,9 @@
 <script type="text/javascript" src="./bundle/renderer.js"></script>
 <script type="text/javascript">
   var { ipcRenderer } = require("electron")
+
+  Messages.setLocale(navigator.language)
+  document.title = Messages.mainWindow_title
 
   function onSetting() {
     ipcRenderer.send('main-setting');
@@ -32,7 +35,7 @@
     loadComponent('TargetTypeSelection', document.getElementById('target-type'), {targetTypes: targetTypes, value: currentTargetType, readonly: true, onChange: onTargetTypeChange})
   }
 
-  document.getElementById('setting').onclick = onSetting;
+  loadComponent('SettingButton', document.getElementById('setting'), { onClick: onSetting })
 
   ipcRenderer.on('input', (sender, text, input) => {
     const textarea = document.getElementById('input-log')

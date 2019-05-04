@@ -1,32 +1,33 @@
 import React from 'react'
 
 import MuiEditableTable from 'mui-editable-table'
-
-const columns = [
-  {
-    title: 'Tab',
-    fieldName: 'col-tab',
-    inputType: 'TextField',
-    width: '20%'
-  },
-  {
-    title: 'Button label',
-    fieldName: 'col-label',
-    inputType: 'TextField',
-    width: '35%'
-  },
-  {
-    title: 'Button action',
-    fieldName: 'col-action',
-    inputType: 'TextField',
-    width: '35%'
-  }
-]
+import Messages from '../../Messages'
 
 export default class ButtonSetting extends React.Component {
   constructor(props) {
     super(props)
     this.onChange = this.onChange.bind(this)
+    
+    this.columns = [
+      {
+        title: Messages.buttonSetting_column_tab,
+        fieldName: 'col-tab',
+        inputType: 'TextField',
+        width: '20%'
+      },
+      {
+        title: Messages.buttonSetting_column_label,
+        fieldName: 'col-label',
+        inputType: 'TextField',
+        width: '35%'
+      },
+      {
+        title: Messages.buttonSetting_column_action,
+        fieldName: 'col-action',
+        inputType: 'TextField',
+        width: '35%'
+      }
+    ]
   }
 
   onChange(rowData) {
@@ -54,7 +55,7 @@ export default class ButtonSetting extends React.Component {
       ))
     }).flat()
     return (
-      <MuiEditableTable colSpec={columns} rowData={data} reorderable={true} onChange={this.onChange}/>
+      <MuiEditableTable colSpec={this.columns} rowData={data} reorderable={true} onChange={this.onChange}/>
     )
   }
 }
