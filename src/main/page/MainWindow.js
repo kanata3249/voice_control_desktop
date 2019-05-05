@@ -85,6 +85,8 @@ const onSettingChange = (settingType) => {
     }
   }
   onSettingChangeProc[settingType]()
+  mainWindow.webContents.executeJavaScript(`setTargetTypes(${JSON.stringify(settings.settings.targetTypes)},
+                                                           "${currentTargetType}");`)
 }
 
 app.on('window-all-closed', function () {

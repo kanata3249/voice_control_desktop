@@ -32,7 +32,7 @@
 
   function setTargetTypes(targetTypes, currentTargetType)
   {
-    loadComponent('TargetTypeSelection', document.getElementById('target-type'), {targetTypes: targetTypes, value: currentTargetType, readonly: true, onChange: onTargetTypeChange})
+    loadComponent('TargetTypeSelection', document.getElementById('target-type'), {targetTypes: targetTypes, value: currentTargetType, readonly: true, onChange: onTargetTypeChange, key: "refresh"})
   }
 
   loadComponent('SettingButton', document.getElementById('setting'), { onClick: onSetting })

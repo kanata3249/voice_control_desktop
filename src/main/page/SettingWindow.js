@@ -73,8 +73,10 @@ module.exports = class SettingWindow {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {
         this.settings.settings.targetTypes.push(newTargetType)
       }
+      this.settings.save(this.settings.settings)
       this.setTargetType(newTargetType)
       this.showCurrentButtonSetting()
+      this.onChange('buttons')
     })
     ipcMain.on(`replacer-apply`, (sender, newReplacer) => {
       this.settings.save(this.settings.settings)
@@ -85,8 +87,10 @@ module.exports = class SettingWindow {
       if (!this.settings.settings.targetTypes.includes(newTargetType)) {
         this.settings.settings.targetTypes.push(newTargetType)
       }
+      this.settings.save(this.settings.settings)
       this.setTargetType(newTargetType)
       this.showCurrentReplacerSetting()
+      this.onChange('replacer')
     })
     ipcMain.on('buttons-export', () => {
       electron.clipboard.writeText( JSON.stringify(this.buttonSetting.settings) )

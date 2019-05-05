@@ -3,6 +3,8 @@ import React from 'react'
 import Select  from 'react-select'
 import Creatable  from 'react-select/lib/Creatable'
 
+import Messages from '../../Messages'
+
 export default class TargetTypeSelection extends React.Component {
   constructor(props) {
     super(props)
@@ -21,17 +23,18 @@ export default class TargetTypeSelection extends React.Component {
   render() {
     const { selectedOption } = this.state
     return (
-      this.props.readOnly ?
-        <Creatable
+      this.props.readonly ?
+        <Select
           value={selectedOption}
           options={this.options}
           onChange={this.onChange}
         />
       :
-        <Select
+        <Creatable
           value={selectedOption}
           options={this.options}
           onChange={this.onChange}
+          formatCreateLabel={(value) => `${Messages.targetType_new} ${value}`}
         />
     )
   }

@@ -4,6 +4,7 @@
   "settingWindow_tab_network": "ネットワーク",
   "settingWindow_tab_replacer": "置換",
   "settingWindow_tab_buttons": "ボタン",
+  "targetType_new": "新規作成: ",
   "networkSetting_ipaddr_label": "自IPアドレス",
   "networkSetting_port_label": "ポート番号",
   "networkSetting_qrcode_label": "QRコード(スマホ側アプリ設定用)",
