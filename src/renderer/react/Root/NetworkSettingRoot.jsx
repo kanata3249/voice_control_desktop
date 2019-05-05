@@ -13,6 +13,18 @@ export default class ButtonSettingRoot extends React.Component {
     this.state
   }
 
+  onIPAddrChange(event) {
+    const ipaddr = event.target.value
+
+    this.props.onChange(ipaddr, this.props.port)
+  }
+
+  onPortNoChange(event) {
+    const portNo = event.target.value
+
+    this.props.onChange(this.props.ipaddr, portNo)
+  }
+
   render() {
     const hostURL = `https://${this.props.ipaddr}:${this.props.port}`
     return(
@@ -26,6 +38,7 @@ export default class ButtonSettingRoot extends React.Component {
             value={this.props.ipaddr}
             margin="normal"
             variant="outlined"
+            onChange={this.onIPAddrChange.bind(this)}
             />
           <span className="ipaddr-port-separator">:</span>
           <TextField
@@ -35,6 +48,7 @@ export default class ButtonSettingRoot extends React.Component {
             value={this.props.port}
             margin="normal"
             variant="outlined"
+            onChange={this.onPortNoChange.bind(this)}
             />
         </div>
         <div className="network-setting-result">

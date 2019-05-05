@@ -84,10 +84,11 @@
       portNo: port
     }
     ipcRenderer.send('network-apply', newSettings);
+    setHostUrl(ipaddr, port)
   }
 
   function setHostUrl(ipaddr, port) {
-    loadComponent('NetworkSettingRoot', document.getElementById('network-settings'), {ipaddr: ipaddr, port: port, onChange: onNetworkSettingChange, key: 'refresh' })
+    loadComponent('NetworkSettingRoot', document.getElementById('network-settings'), {ipaddr: ipaddr, port: port, onChange: onNetworkSettingChange })
   }
 </script>
 
