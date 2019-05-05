@@ -1,1 +1,1 @@
-{"tab":[{"buttons":[{"action":"/p\\n","label":"Party"},{"action":"/fc\\n","label":"FC"},{"action":"/a\\n","label":"Aliance"}],"label":"Chat"}]}
+{"tab":[{"buttons":[{"action":"/p\\n","label":"Party"},{"action":"/fc\\n","label":"FC"},{"action":"/a\\n","label":"Aliance"}],"label":"Chat"},{"buttons":[{"action":"/beckon\\n","label":"手招き"},{"action":"/bow\\n","label":"お辞儀"}],"label":"エモート"}]}
