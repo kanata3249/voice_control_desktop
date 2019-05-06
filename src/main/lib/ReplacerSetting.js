@@ -51,16 +51,26 @@ module.exports = class ReplacerSetting {
     this.handler && this.handler()
   }
 
+  unescape(text) {
+    const unescapedChar = {
+      '\\n': '\n',
+      '\\t': '\t',
+    }
+    const substrings = text.split(/(\\[nt])/)
+    const unescapedText = substrings.map((substring) => unescapedChar[substring] || substring).join('')
+
+    return unescapedText
+  }
+
   replace(application, text) {
     const replace_data_array = this.settings.replacers
     let resultText
 
-    resultText = text
+    resultText = this.unescape(text)
     replace_data_array.forEach((element) => {
       const re = RegExp(element.key)
-      resultText = resultText.replace(re, element.value)
+      resultText = resultText.replace(re, this.unescape(element.value))
     })
-    resultText = resultText.replace('\\n', '\n')
     return resultText
   }
 }

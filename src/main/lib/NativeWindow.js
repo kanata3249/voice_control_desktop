@@ -77,21 +77,22 @@ class Win32Api {
     }
 
     const keyCodeTable = {
-      0x0a: 0x0d,         // '\n'
-      0x2f: 0xbf          // '/'
+      0x0a: [0x0d, 0x1c],   // '\n'
+      0x09: [0x09, 0x0f],   // '\t'
+      0x2f: [0xbf, 0x35]    // '/'
     }
 
     const charCode = text.charCodeAt(0)
     const keyCode = keyCodeTable[charCode]
     if (keyCode) {
-      this.user32.PostMessageW(focusWindow, WM_KEYDOWN, keyCode, 0)
-      this.user32.PostMessageW(focusWindow, WM_KEYUP, keyCode, 0xc0000000)
+      this.user32.PostMessageW(focusWindow, WM_KEYDOWN, keyCode[0], 0x00000000 | ((keyCode[1] << 16)) >>> 0)
+      this.user32.PostMessageW(focusWindow, WM_KEYUP, keyCode[0], (0xc0000000 | (keyCode[1] << 16)) >>> 0)
     } else {
       this.user32.PostMessageW(focusWindow, WM_IME_CHAR, charCode, 0)
     }
     setTimeout(this.sendTextWithDelay.bind(this), delay, focusWindow, text.slice(1), delay)
   }
-
+  
   paste(text) {
     const focusWindow = this.getFocusWindow()
     this.sendTextWithDelay(focusWindow, text, 20)
