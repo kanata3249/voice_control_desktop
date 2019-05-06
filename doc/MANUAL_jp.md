@@ -9,6 +9,14 @@ PC Voice Commandは、ハンズフリーでの連続音声入力が可能にな�
 
 スマートフォンは充電状態で使うことを推奨します。充電状態であればスリープ状態にならないようになっています。
 
+## スマートフォン端末用アプリ
+
+### Android
+
+以下からダウンロード可能です。
+
+https://play.google.com/store/apps/details?id=com.github.kanata3249.voice_control_app
+
 ## 設定方法
 
 メインウィンドウ右上ある歯車アイコンを押すと、設定画面が開きます。
